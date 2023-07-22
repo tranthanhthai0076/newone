@@ -68,7 +68,6 @@
             this.mk.Size = new System.Drawing.Size(241, 27);
             this.mk.TabIndex = 3;
             this.mk.UseSystemPasswordChar = true;
-      
             // 
             // button1
             // 
@@ -103,6 +102,7 @@
             this.Controls.Add(this.label1);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

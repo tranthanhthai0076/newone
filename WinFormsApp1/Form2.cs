@@ -33,5 +33,17 @@ namespace WinFormsApp1
             cau3 objForm01 = new cau3();
             objForm01.ShowDialog();
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            cau4 objForm01 = new cau4();
+            objForm01.ShowDialog();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            cau5 objForm01 = new cau5();
+            objForm01.ShowDialog();
+        }
     }
 }
