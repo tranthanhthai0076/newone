@@ -25,6 +25,9 @@
     <Compile Update="cau8.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="cau9.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

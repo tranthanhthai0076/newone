@@ -21,31 +21,33 @@ namespace WinFormsApp1
 
         List<ImageData> imageList = new List<ImageData>();
         private string imagePath;
-        private object opnfd;
+        string nameimg;
+
 
         public cau5()
         {
             InitializeComponent();
 
-            dataGridView1.Rows.Add("aaaa", "tran thai", "tuoi", false, @"C:\Users\MSII\Desktop\c#\tranthanhthai_0076\WinFormsApp1\img\2.jpg");
+            //dataGridView1.Rows.Add("aaaa", "tran thai", "tuoi", false, "2.jpg");
 
 
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
+
             String manv = textBox1.Text.ToString();
             String ten = textBox2.Text.ToString();
             String tuoi = textBox3.Text.ToString();
-            if (manv == "" || ten == "" || tuoi == "" || imagePath == "")
+            if (manv == "" || ten == "" || tuoi == "")
             {
                 MessageBox.Show("cần nhập đủ thông tin");
             }
             else
             {
-                Image image = Image.FromFile(imagePath);
+                //Image image = Image.FromFile(imagePath);
 
-                dataGridView1.Rows.Add(textBox1.Text, textBox2.Text, textBox3.Text, checkBox1.Checked, imagePath);
+                dataGridView1.Rows.Add(textBox1.Text, textBox2.Text, textBox3.Text, checkBox1.Checked, nameimg);
 
             }
 
@@ -70,16 +72,16 @@ namespace WinFormsApp1
 
             }
         }
-        private void dataGridView(object sender, DataGridViewCellCancelEventArgs e)
-        {
-            int idx = e.RowIndex;
-            textBox1.Text = dataGridView1.Rows[idx].Cells[0].Value.ToString();
-            textBox2.Text = dataGridView1.Rows[idx].Cells[1].Value.ToString();
-            textBox3.Text = dataGridView1.Rows[idx].Cells[2].Value.ToString();
-            checkBox1.Checked = bool.Parse(dataGridView1.Rows[idx].Cells[3].Value.ToString());
+        //private void dataGridView(object sender, DataGridViewCellCancelEventArgs e)
+        //{
+        //    int idx = e.RowIndex;
+        //    textBox1.Text = dataGridView1.Rows[idx].Cells[0].Value.ToString();
+        //    textBox2.Text = dataGridView1.Rows[idx].Cells[1].Value.ToString();
+        //    textBox3.Text = dataGridView1.Rows[idx].Cells[2].Value.ToString();
+        //    checkBox1.Checked = (bool)dataGridView1.Rows[idx].Cells[3].Value;
 
 
-        }
+        //}
 
 
 
@@ -91,7 +93,8 @@ namespace WinFormsApp1
                 String manv = textBox1.Text.ToString();
                 String ten = textBox2.Text.ToString();
                 String tuoi = textBox3.Text.ToString();
-                if (manv == "" || ten == "" || tuoi == "")
+
+                if (manv == "" || ten == "" || tuoi == "" || imagePath == "")
                 {
                     MessageBox.Show("cần nhập đủ thông tin");
                 }
@@ -102,7 +105,7 @@ namespace WinFormsApp1
                     dataGridView1.Rows[idx].Cells[1].Value = textBox2.Text;
                     dataGridView1.Rows[idx].Cells[2].Value = textBox3.Text;
                     dataGridView1.Rows[idx].Cells[3].Value = checkBox1.Checked;
-                    dataGridView1.Rows[idx].Cells[4].Value = imagePath;
+                    dataGridView1.Rows[idx].Cells[4].Value = nameimg;
                 }
             }
 
@@ -129,7 +132,16 @@ namespace WinFormsApp1
             {
                 // Lấy đường dẫn của hình ảnh đã chọn
                 imagePath = openFileDialog.FileName;
+                string selectedImagePath = openFileDialog.FileName;
 
+                // Lưu ảnh vào thư mục chỉ định
+                string targetDirectory = @"C:\Users\MSII\Desktop\c#\tranthanhthai_0076\WinFormsApp1\img\"; // Thay đổi đường dẫn tới thư mục mong muốn
+                string targetFileName = Path.Combine(targetDirectory, Path.GetFileName(selectedImagePath));
+
+                nameimg = Path.GetFileName(selectedImagePath);
+
+
+                File.Copy(selectedImagePath, targetFileName, true);
                 // Load ảnh từ đường dẫn và thêm vào DataGridViewImageColumn
 
                 pictureBox1.Image = new Bitmap(openFileDialog.FileName);
@@ -143,24 +155,60 @@ namespace WinFormsApp1
 
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)
         {
-            if (dataGridView1.SelectedCells.Count > 0)
+
+            if (dataGridView1.SelectedCells.Count >= 0)
             {
                 int selectedRowIndex = dataGridView1.SelectedCells[0].RowIndex;
+                if (dataGridView1.Rows[selectedRowIndex].Cells[0].Value != null)
+                {
+                    textBox1.Text = dataGridView1.SelectedCells[0].Value.ToString();
+                    textBox2.Text = dataGridView1.SelectedCells[1].Value.ToString();
+                    textBox3.Text = dataGridView1.SelectedCells[2].Value.ToString();
+                    checkBox1.Checked = (bool)dataGridView1.SelectedCells[3].Value;
+                }
+                else
+                {
+                    textBox1.Text = null;
+                    textBox2.Text = null;
+                    textBox3.Text = null;
+                }
 
                 if (dataGridView1.Rows[selectedRowIndex].Cells[4].Value != null)
                 {
+
                     // Lấy đường dẫn hình ảnh từ cột "ImagePath"
                     string imagePath = dataGridView1.Rows[selectedRowIndex].Cells[4].Value.ToString();
 
                     // Hiển thị hình ảnh trong PictureBox
-                    pictureBox1.Image = new Bitmap(imagePath);
+                    pictureBox1.Image = new Bitmap(@"C:\Users\MSII\Desktop\c#\tranthanhthai_0076\WinFormsApp1\img\" + imagePath);
                     pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
                 }
                 else
                 {
+
                     pictureBox1.Image = null;
                 }
             }
         }
+
+        private void dataGridView1_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            //int rowIndex = e.RowIndex;
+
+            //// Lấy giá trị của ô ở cột thứ nhất (cột có chỉ số 0) của hàng đang được validate và gán giá trị đó vào TextBox textBox1
+            //textBox1.Text = dataGridView1.Rows[rowIndex].Cells[0].Value.ToString();
+
+            //// Lấy giá trị của ô ở cột thứ hai (cột có chỉ số 1) của hàng đang được validate và gán giá trị đó vào TextBox textBox2
+            //textBox2.Text = dataGridView1.Rows[rowIndex].Cells[1].Value.ToString();
+
+            //// Lấy giá trị của ô ở cột thứ ba (cột có chỉ số 2) của hàng đang được validate và gán giá trị đó vào TextBox textBox3
+            //textBox3.Text = dataGridView1.Rows[rowIndex].Cells[2].Value.ToString();
+
+            //// Lấy giá trị của ô checkbox ở cột thứ tư (cột có chỉ số 3) của hàng đang được validate và gán giá trị đó vào thuộc tính Checked của CheckBox checkBox1.
+            //// Đoạn mã này giả định ô ở cột thứ tư có kiểu dữ liệu là boolean (checkbox).
+            //checkBox1.Checked = (bool)dataGridView1.Rows[rowIndex].Cells[3].Value;
+        }
+
+
     }
 }

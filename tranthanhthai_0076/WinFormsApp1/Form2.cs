@@ -63,5 +63,11 @@ namespace WinFormsApp1
             cau8 objForm01 = new cau8();
               objForm01.ShowDialog();
         }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            cau9 objForm01 = new cau9();
+            objForm01.ShowDialog();
+        }
     }
 }
