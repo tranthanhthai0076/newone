@@ -89,3 +89,7 @@ C:\Users\MSII\Desktop\c#\tranthanhthai_0076\WinFormsApp1\bin\Debug\net6.0-window
 C:\Users\MSII\Desktop\c#\tranthanhthai_0076\WinFormsApp1\bin\Debug\net6.0-windows\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
 C:\Users\MSII\Desktop\c#\tranthanhthai_0076\WinFormsApp1\obj\Debug\net6.0-windows\WinFormsApp1.cau9.resources
 C:\Users\MSII\Desktop\c#\tranthanhthai_0076\WinFormsApp1\obj\Debug\net6.0-windows\WinFormsApp1.csproj.CopyComplete
+C:\Users\MSII\Desktop\c#\tranthanhthai_0076\WinFormsApp1\obj\Debug\net6.0-windows\WinFormsApp1.cau10.resources
+C:\Users\MSII\Desktop\c#\tranthanhthai_0076\WinFormsApp1\obj\Debug\net6.0-windows\WinFormsApp1.cau11.resources
+C:\Users\MSII\Desktop\c#\tranthanhthai_0076\WinFormsApp1\obj\Debug\net6.0-windows\WinFormsApp1.cau12.resources
+C:\Users\MSII\Desktop\c#\tranthanhthai_0076\WinFormsApp1\obj\Debug\net6.0-windows\WinFormsApp1.cau13.resources

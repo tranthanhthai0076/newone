@@ -37,6 +37,10 @@
             this.gamega = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
+            this.button9 = new System.Windows.Forms.Button();
+            this.button10 = new System.Windows.Forms.Button();
+            this.button11 = new System.Windows.Forms.Button();
+            this.button12 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -121,7 +125,7 @@
             // 
             // button8
             // 
-            this.button8.Location = new System.Drawing.Point(245, 178);
+            this.button8.Location = new System.Drawing.Point(201, 159);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(94, 29);
             this.button8.TabIndex = 8;
@@ -129,11 +133,55 @@
             this.button8.UseVisualStyleBackColor = true;
             this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
+            // button9
+            // 
+            this.button9.Location = new System.Drawing.Point(322, 159);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(94, 29);
+            this.button9.TabIndex = 9;
+            this.button9.Text = "button9";
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
+            // 
+            // button10
+            // 
+            this.button10.Location = new System.Drawing.Point(502, 145);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(94, 29);
+            this.button10.TabIndex = 10;
+            this.button10.Text = "SQL";
+            this.button10.UseVisualStyleBackColor = true;
+            this.button10.Click += new System.EventHandler(this.button10_Click);
+            // 
+            // button11
+            // 
+            this.button11.Location = new System.Drawing.Point(150, 290);
+            this.button11.Name = "button11";
+            this.button11.Size = new System.Drawing.Size(94, 29);
+            this.button11.TabIndex = 13;
+            this.button11.Text = "Article04";
+            this.button11.UseVisualStyleBackColor = true;
+            this.button11.Click += new System.EventHandler(this.button11_Click);
+            // 
+            // button12
+            // 
+            this.button12.Location = new System.Drawing.Point(299, 265);
+            this.button12.Name = "button12";
+            this.button12.Size = new System.Drawing.Size(94, 29);
+            this.button12.TabIndex = 14;
+            this.button12.Text = "Aritcle05";
+            this.button12.UseVisualStyleBackColor = true;
+            this.button12.Click += new System.EventHandler(this.button12_Click);
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.button12);
+            this.Controls.Add(this.button11);
+            this.Controls.Add(this.button10);
+            this.Controls.Add(this.button9);
             this.Controls.Add(this.button8);
             this.Controls.Add(this.button7);
             this.Controls.Add(this.gamega);
@@ -160,5 +208,9 @@
         private Button gamega;
         private Button button7;
         private Button button8;
+        private Button button9;
+        private Button button10;
+        private Button button11;
+        private Button button12;
     }
 }

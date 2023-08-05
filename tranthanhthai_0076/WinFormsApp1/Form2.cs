@@ -69,5 +69,31 @@ namespace WinFormsApp1
             cau9 objForm01 = new cau9();
             objForm01.ShowDialog();
         }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            cau10 objForm01 = new cau10();
+            objForm01.ShowDialog();
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            cau11 objForm01 = new cau11();
+            objForm01.ShowDialog();
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            
+            cau12 objForm01 = new cau12();
+            objForm01.ShowDialog();
+           
+        }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+            cau13 objForm01 = new cau13();
+            objForm01.ShowDialog();
+        }
     }
 }
