@@ -1,0 +1,15 @@
+C:\Users\MSII\Desktop\c#\TranThanhThai_0076_QLBHST\QLBHST\bin\Debug\QLBHST.exe.config
+C:\Users\MSII\Desktop\c#\TranThanhThai_0076_QLBHST\QLBHST\bin\Debug\QLBHST.exe
+C:\Users\MSII\Desktop\c#\TranThanhThai_0076_QLBHST\QLBHST\bin\Debug\QLBHST.pdb
+C:\Users\MSII\Desktop\c#\TranThanhThai_0076_QLBHST\QLBHST\obj\Debug\QLBHST.csproj.SuggestedBindingRedirects.cache
+C:\Users\MSII\Desktop\c#\TranThanhThai_0076_QLBHST\QLBHST\obj\Debug\QLBHST.GUII.dangnhap.resources
+C:\Users\MSII\Desktop\c#\TranThanhThai_0076_QLBHST\QLBHST\obj\Debug\QLBHST.GUII.dk.resources
+C:\Users\MSII\Desktop\c#\TranThanhThai_0076_QLBHST\QLBHST\obj\Debug\QLBHST.GUII.dn.resources
+C:\Users\MSII\Desktop\c#\TranThanhThai_0076_QLBHST\QLBHST\obj\Debug\QLBHST.GUII.Gdht.resources
+C:\Users\MSII\Desktop\c#\TranThanhThai_0076_QLBHST\QLBHST\obj\Debug\QLBHST.GUII.quenmk.resources
+C:\Users\MSII\Desktop\c#\TranThanhThai_0076_QLBHST\QLBHST\obj\Debug\QLBHST.Properties.Resources.resources
+C:\Users\MSII\Desktop\c#\TranThanhThai_0076_QLBHST\QLBHST\obj\Debug\QLBHST.csproj.GenerateResource.cache
+C:\Users\MSII\Desktop\c#\TranThanhThai_0076_QLBHST\QLBHST\obj\Debug\QLBHST.csproj.CoreCompileInputs.cache
+C:\Users\MSII\Desktop\c#\TranThanhThai_0076_QLBHST\QLBHST\obj\Debug\QLBHST.exe
+C:\Users\MSII\Desktop\c#\TranThanhThai_0076_QLBHST\QLBHST\obj\Debug\QLBHST.pdb
+C:\Users\MSII\Desktop\c#\TranThanhThai_0076_QLBHST\QLBHST\obj\Debug\QLBHST.csproj.AssemblyReference.cache
