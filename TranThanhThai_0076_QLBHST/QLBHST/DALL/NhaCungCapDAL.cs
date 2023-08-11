@@ -32,38 +32,40 @@ namespace QLBHST.DALL
             conn.Close();
             return lstCus;
         }
-        //public void EditNhaCungCap(NhaCungCapBEL cus)
-        //{
-        //    SqlConnection conn = CreateConnection();
-        //    conn.Open();
-        //    SqlCommand cmd = new SqlCommand("update TAIKHOAN set MatKhau=@Matkhau where TenTaiKhoan=@TenTaiKhoan and Email=@Email", conn);
-        //    cmd.Parameters.Add(new SqlParameter("@TenTaiKhoan", cus.Tentk));
-        //    cmd.Parameters.Add(new SqlParameter("@Matkhau", cus.Matkhau));
-        //    cmd.Parameters.Add(new SqlParameter("@Email", cus.Email));
+        public void EditNhaCungCap(NhaCungCapBEL cus)
+        {
+            SqlConnection conn = CreateConnection();
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("update NhaCungCap set TenNhaCungCap=@TenNhaCungCap ,DiaChi=@DiaChi,SoDienThoai=@SoDienThoai,Email=@Email where manhacungcap=@manhacungcap ", conn);
+            cmd.Parameters.Add(new SqlParameter("@manhacungcap", cus.Ma));
+            cmd.Parameters.Add(new SqlParameter("@TenNhaCungCap", cus.Ten));
+            cmd.Parameters.Add(new SqlParameter("@DiaChi", cus.Diachi));
+            cmd.Parameters.Add(new SqlParameter("@SoDienThoai", cus.sdt));
+            cmd.Parameters.Add(new SqlParameter("@Email", cus.Email));
+            cmd.ExecuteNonQuery();
+            conn.Close();
+        }
+        public void DeleteNhaCungCap(NhaCungCapBEL cus)
+        {
+            SqlConnection conn = CreateConnection();
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("delete from NhaCungCap where manhacungcap=@manhacungcap", conn);
+            cmd.Parameters.Add(new SqlParameter("@manhacungcap", cus.Ma));
+            cmd.ExecuteNonQuery();
+            conn.Close();
+        }
+        public void AddNhaCungCap(NhaCungCapBEL cus)
+        {
+            SqlConnection conn = CreateConnection();
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("insert into NhaCungCap values(@TenNhaCungCap,@DiaChi,@SoDienThoai,@Email)", conn);
 
-        //    cmd.ExecuteNonQuery();
-        //    conn.Close();
-        //}
-        //public void DeleteNhaCungCap(NhaCungCapBEL cus)
-        //{
-        //    SqlConnection conn = CreateConnection();
-        //    conn.Open();
-        //    SqlCommand cmd = new SqlCommand("delete from CUSTOMER where id=@id", conn);
-        //    cmd.Parameters.Add(new SqlParameter("@id", cus.Id));
-        //    cmd.ExecuteNonQuery();
-        //    conn.Close();
-        //}
-        //public void NewNhaCungCap(NhaCungCapBEL cus)
-        //{
-        //    SqlConnection conn = CreateConnection();
-        //    conn.Open();
-        //    SqlCommand cmd = new SqlCommand("insert into TAIKHOAN values(@id,@TenTaiKhoan,@Matkhau,@Email)", conn);
-        //    cmd.Parameters.Add(new SqlParameter("@id", cus.Id));
-        //    cmd.Parameters.Add(new SqlParameter("@TenTaiKhoan", cus.Tentk));
-        //    cmd.Parameters.Add(new SqlParameter("@Matkhau", cus.Matkhau));
-        //    cmd.Parameters.Add(new SqlParameter("@Email", cus.Email));
-        //    cmd.ExecuteNonQuery();
-        //    conn.Close();
-        //}
+            cmd.Parameters.Add(new SqlParameter("@TenNhaCungCap", cus.Ten));
+            cmd.Parameters.Add(new SqlParameter("@DiaChi", cus.Diachi));
+            cmd.Parameters.Add(new SqlParameter("@SoDienThoai", cus.sdt));
+            cmd.Parameters.Add(new SqlParameter("@Email", cus.Email));
+            cmd.ExecuteNonQuery();
+            conn.Close();
+        }
     }
 }

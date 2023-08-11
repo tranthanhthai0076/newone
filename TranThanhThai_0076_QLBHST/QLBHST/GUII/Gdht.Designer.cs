@@ -53,8 +53,8 @@
             this.btnEdit = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.dBConnectionBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.button1 = new System.Windows.Forms.Button();
+            this.dBConnectionBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgvSanpham)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dBConnectionBindingSource)).BeginInit();
@@ -169,6 +169,8 @@
             this.tbgia.Name = "tbgia";
             this.tbgia.Size = new System.Drawing.Size(183, 27);
             this.tbgia.TabIndex = 8;
+            this.tbgia.TextChanged += new System.EventHandler(this.tbgia_TextChanged);
+            this.tbgia.Leave += new System.EventHandler(this.formatso);
             // 
             // tbma
             // 
@@ -185,6 +187,7 @@
             this.tpten.Name = "tpten";
             this.tpten.Size = new System.Drawing.Size(183, 27);
             this.tpten.TabIndex = 10;
+            this.tpten.TextChanged += new System.EventHandler(this.tpten_TextChanged);
             // 
             // tbsl
             // 
@@ -292,10 +295,6 @@
             this.pictureBox1.TabIndex = 12;
             this.pictureBox1.TabStop = false;
             // 
-            // dBConnectionBindingSource
-            // 
-            this.dBConnectionBindingSource.DataSource = typeof(QLBHST.DALL.DBConnection);
-            // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(582, 354);
@@ -306,12 +305,16 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
+            // dBConnectionBindingSource
+            // 
+            this.dBConnectionBindingSource.DataSource = typeof(QLBHST.DALL.DBConnection);
+            // 
             // Gdht
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.ClientSize = new System.Drawing.Size(1195, 845);
+            this.ClientSize = new System.Drawing.Size(1146, 845);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.sreach);

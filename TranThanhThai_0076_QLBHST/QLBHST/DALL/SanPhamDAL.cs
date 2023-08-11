@@ -1,6 +1,7 @@
 ﻿using QLBHST.MODELL;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -86,7 +87,7 @@ namespace QLBHST.DALL
             SqlConnection conn = CreateConnection();
             conn.Open();
             SqlCommand cmd = new SqlCommand("insert into SanPham values(@TenSanPham,@GiaBan,@SoLuongTonKho,@NhaCungCap,@Anh)", conn);
-            
+
             cmd.Parameters.Add(new SqlParameter("@TenSanPham", cus.Ten));
             cmd.Parameters.Add(new SqlParameter("@GiaBan", cus.Gia));
             cmd.Parameters.Add(new SqlParameter("@SoLuongTonKho", cus.Soluong));
@@ -95,5 +96,8 @@ namespace QLBHST.DALL
             cmd.ExecuteNonQuery();
             conn.Close();
         }
+
+    
+
     }
 }

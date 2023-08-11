@@ -17,14 +17,18 @@ namespace QLBHST.BALL
             return lstCus;
         }
 
-        //public void NewNhaCungCap(NhaCungCapBEL cus)
-        //{
-        //    dal.NewNhaCungCap(cus);
-        //}
-        //public void EditNhaCungCap(NhaCungCapBEL cus)
-        //{
-        //    dal.EditNhaCungCap(cus);
-        //}
+        public void AddNhaCungCap(NhaCungCapBEL cus)
+        {
+            dal.AddNhaCungCap(cus);
+        }
+        public void EditNhaCungCap(NhaCungCapBEL cus)
+        {
+            dal.EditNhaCungCap(cus);
+        }
+        public void DeleteNhaCungCap(NhaCungCapBEL cus)
+        {
+            dal.DeleteNhaCungCap(cus);
+        }
 
 
     }
