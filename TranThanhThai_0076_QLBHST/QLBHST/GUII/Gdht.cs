@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -70,67 +71,74 @@ namespace QLBHST.GUII
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-
-            if (bay == true)
+            try
             {
-                MessageBox.Show("Vui lòng điền đủ thông tin");
-            }
-
-            else
-            {
-                string a = tbsl.Text;
-                string b = tbgia.Text;
-          
-                bool kt2 = b.Contains(" ");
-                bool kt1 = a.Contains(" ");
-                string a1 = tpten.Text + " ";
-                if (IsValidInput(a1) == false || kt1 || kt2 || CheckContainsAlphaOrDigit(b) || CheckContainsAlphaOrDigit(a)
-                    || string.IsNullOrEmpty(a) || string.IsNullOrEmpty(b)
-                    || cbbncc.Text =="")
+                if (bay == true)
                 {
-                    MessageBox.Show("Không thể thêm.Vui lòng kiểm tra lại thông tin");
+                    MessageBox.Show("Vui lòng điền đủ thông tin");
                 }
+
                 else
                 {
-                    if(nameimg == null)
+                    string a = tbsl.Text;
+                    string b = tbgia.Text;
+
+                    bool kt2 = b.Contains(" ");
+                    bool kt1 = a.Contains(" ");
+                    string a1 = tpten.Text + " ";
+                    if (IsValidInput(a1) == false || kt1 || kt2 || CheckContainsAlphaOrDigit(b) || CheckContainsAlphaOrDigit(a)
+                        || string.IsNullOrEmpty(a) || string.IsNullOrEmpty(b)
+                        || cbbncc.Text == "" || img == "")
                     {
-                        SanPhamBEL cus = new SanPhamBEL();
-                        cus.Ten = tpten.Text;
-                        cus.Gia = int.Parse(tbgia.Text);
-                        cus.Soluong = int.Parse(tbsl.Text);
-                        cus.Ncc = cbbncc.Text;
-                        cus.Anh = img;
-                        cusBAL1.AddSanPham(cus);
-                        dgvSanpham.Rows.Clear();
-                        //dgvSanpham.Rows.Add( cus.Ten, cus.Soluong, cus.Gia, cus.Ncc, cus.Anh);
-                        List<SanPhamBEL> lstCus = cusBAL1.ReadSanPham();
-                        foreach (SanPhamBEL c in lstCus)
-                        {
-                            dgvSanpham.Rows.Add(c.Ma, c.Ten, c.Soluong, c.Gia, c.Ncc, c.Anh);
-                        }
+                        MessageBox.Show("Không thể thêm.Vui lòng kiểm tra lại thông tin");
                     }
                     else
                     {
-                        SanPhamBEL cus = new SanPhamBEL();
-                        cus.Ten = tpten.Text;
-                        cus.Gia = int.Parse(tbgia.Text);
-                        cus.Soluong = int.Parse(tbsl.Text);
-                        cus.Ncc = cbbncc.Text;
-                        cus.Anh = nameimg;
-                        cusBAL1.AddSanPham(cus);
-                        dgvSanpham.Rows.Clear();
-                        //dgvSanpham.Rows.Add( cus.Ten, cus.Soluong, cus.Gia, cus.Ncc, cus.Anh);
-                        List<SanPhamBEL> lstCus = cusBAL1.ReadSanPham();
-                        foreach (SanPhamBEL c in lstCus)
+                        if (nameimg == null)
                         {
-                            dgvSanpham.Rows.Add(c.Ma, c.Ten, c.Soluong, c.Gia, c.Ncc, c.Anh);
+                            SanPhamBEL cus = new SanPhamBEL();
+                            cus.Ten = tpten.Text;
+                            cus.Gia = intValue;
+                            cus.Soluong = int.Parse(tbsl.Text);
+                            cus.Ncc = cbbncc.Text;
+                            cus.Anh = img;
+                            cusBAL1.AddSanPham(cus);
+                            dgvSanpham.Rows.Clear();
+                            //dgvSanpham.Rows.Add( cus.Ten, cus.Soluong, cus.Gia, cus.Ncc, cus.Anh);
+                            List<SanPhamBEL> lstCus = cusBAL1.ReadSanPham();
+                            foreach (SanPhamBEL c in lstCus)
+                            {
+                                dgvSanpham.Rows.Add(c.Ma, c.Ten, c.Soluong, c.Gia, c.Ncc, c.Anh);
+                            }
                         }
-                    }
-                   
-                }
-                
+                        else
+                        {
+                            SanPhamBEL cus = new SanPhamBEL();
+                            cus.Ten = tpten.Text;
+                            cus.Gia = intValue;
+                            cus.Soluong = int.Parse(tbsl.Text);
+                            cus.Ncc = cbbncc.Text;
+                            cus.Anh = nameimg;
+                            cusBAL1.AddSanPham(cus);
+                            dgvSanpham.Rows.Clear();
+                            //dgvSanpham.Rows.Add( cus.Ten, cus.Soluong, cus.Gia, cus.Ncc, cus.Anh);
+                            List<SanPhamBEL> lstCus = cusBAL1.ReadSanPham();
+                            foreach (SanPhamBEL c in lstCus)
+                            {
+                                dgvSanpham.Rows.Add(c.Ma, c.Ten, c.Soluong, c.Gia, c.Ncc, c.Anh);
+                            }
+                        }
 
+                    }
+
+
+                }
             }
+            catch
+            {
+                MessageBox.Show("Có lỗi sảy ra");
+            }
+           
         }
 
         private void label6_Click(object sender, EventArgs e)
@@ -248,36 +256,49 @@ namespace QLBHST.GUII
                             cus.Ma = int.Parse(tbma.Text);
 
                             cus.Ten = tpten.Text;
-                            cus.Gia = int.Parse(tbgia.Text);
+                            cus.Gia = intValue;
                             cus.Soluong = int.Parse(tbsl.Text);
                             cus.Ncc = cbbncc.Text;
                             cus.Anh = nameimg;
                             cusBAL1.EditSanPham(cus);
-                            int idx = dgvSanpham.CurrentCell.RowIndex;
-                            dgvSanpham.Rows[idx].Cells[0].Value = tbma.Text;
-                            dgvSanpham.Rows[idx].Cells[1].Value = tpten.Text;
-                            dgvSanpham.Rows[idx].Cells[2].Value = tbsl.Text;
-                            dgvSanpham.Rows[idx].Cells[3].Value = tbgia.Text;
-                            dgvSanpham.Rows[idx].Cells[4].Value = cbbncc.Text;
-                            dgvSanpham.Rows[idx].Cells[5].Value = nameimg;
+                            //int idx = dgvSanpham.CurrentCell.RowIndex;
+                            //dgvSanpham.Rows[idx].Cells[0].Value = tbma.Text;
+                            //dgvSanpham.Rows[idx].Cells[1].Value = tpten.Text;
+                            //dgvSanpham.Rows[idx].Cells[2].Value = tbsl.Text;
+                            //dgvSanpham.Rows[idx].Cells[3].Value = tbgia.Text;
+                            //dgvSanpham.Rows[idx].Cells[4].Value = cbbncc.Text;
+                            //dgvSanpham.Rows[idx].Cells[5].Value = nameimg; dgvSanpham.Rows.Clear();
+                            //dgvSanpham.Rows.Add( cus.Ten, cus.Soluong, cus.Gia, cus.Ncc, cus.Anh);
+                            dgvSanpham.Rows.Clear();
+                            List<SanPhamBEL> lstCus = cusBAL1.ReadSanPham();
+                            foreach (SanPhamBEL c in lstCus)
+                            {
+                                dgvSanpham.Rows.Add(c.Ma, c.Ten, c.Soluong, c.Gia, c.Ncc, c.Anh);
+                            }
                         }
                         else
                         {
                             SanPhamBEL cus = new SanPhamBEL();
                             cus.Ma = int.Parse(tbma.Text);
                             cus.Ten = tpten.Text;
-                            cus.Gia = int.Parse(tbgia.Text);
+                            cus.Gia = intValue;
                             cus.Soluong = int.Parse(tbsl.Text);
                             cus.Ncc = cbbncc.Text;
                             cus.Anh = img;
                             cusBAL1.EditSanPham(cus);
-                            int idx = dgvSanpham.CurrentCell.RowIndex;
-                            dgvSanpham.Rows[idx].Cells[0].Value = tbma.Text;
-                            dgvSanpham.Rows[idx].Cells[1].Value = tpten.Text;
-                            dgvSanpham.Rows[idx].Cells[2].Value = tbsl.Text;
-                            dgvSanpham.Rows[idx].Cells[3].Value = tbgia.Text;
-                            dgvSanpham.Rows[idx].Cells[4].Value = cbbncc.Text;
-                            dgvSanpham.Rows[idx].Cells[5].Value = img;
+                            dgvSanpham.Rows.Clear();
+                            List<SanPhamBEL> lstCus = cusBAL1.ReadSanPham();
+                            foreach (SanPhamBEL c in lstCus)
+                            {
+                                dgvSanpham.Rows.Add(c.Ma, c.Ten, c.Soluong, c.Gia, c.Ncc, c.Anh);
+                            }
+                            //int idx = dgvSanpham.CurrentCell.RowIndex;
+                            //dgvSanpham.Rows[idx].Cells[0].Value = tbma.Text;
+                            //dgvSanpham.Rows[idx].Cells[1].Value = tpten.Text;
+                            //dgvSanpham.Rows[idx].Cells[2].Value = tbsl.Text;
+                            //dgvSanpham.Rows[idx].Cells[3].Value = tbgia.Text;
+                            //dgvSanpham.Rows[idx].Cells[4].Value = cbbncc.Text;
+                            //dgvSanpham.Rows[idx].Cells[5].Value = img;
                         }
                     }
                 }
@@ -382,11 +403,22 @@ namespace QLBHST.GUII
         {
             return inputString.Any(c => char.IsLetter(c));
         }
-      
+        int intValue;
         private void tbgia_TextChanged(object sender, EventArgs e)
         {
-          
+            if (decimal.TryParse(tbgia.Text, out decimal value))
+            {
+                // Successfully parsed the text as a decimal value
+                tbgia.Text = value.ToString("N0"); // Format the value as desired
+                tbgia.Select(tbgia.Text.Length, 0);
+
+                // Convert the decimal value to an integer (possible loss of precision)
+                 intValue = (int)value;
+               
+            }            
         }
+
+
 
         private void formatso(object sender, EventArgs e)
         {
@@ -460,6 +492,14 @@ namespace QLBHST.GUII
             }
 
             return string.Join(" ", words);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            var form2 = new Menu();
+            form2.Closed += (s, args) => this.Close();
+            form2.Show();
         }
     }
 }

@@ -17,7 +17,7 @@ namespace QLBHST
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Gdht());
+            Application.Run(new HoaDon());
         }
     }
 }

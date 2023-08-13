@@ -22,6 +22,7 @@ namespace QLBHST.GUII
         public nhacc()
         {
             InitializeComponent();
+            tbma.Enabled = false;
         }
 
         private void nhacc_Load(object sender, EventArgs e)
@@ -109,6 +110,11 @@ namespace QLBHST.GUII
                 //}
                 string a = tbt.Text + " ";
                 string a1 = tbdc.Text + " ";
+                if (!tbemail.Text.EndsWith("@gmail.com"))
+                {
+                    MessageBox.Show("Email phải có đuôi '@gmail.com'!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
                 if (IsValidInput(a) && sdt == true && IsValidInput(a1))
                 {
                     NhaCungCapBEL cus = new NhaCungCapBEL();
@@ -173,7 +179,7 @@ namespace QLBHST.GUII
                     MessageBox.Show("Không thể sửa. Vui lòng kiểm tra lại thông tin");
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 MessageBox.Show("Không thể sửa. Vui lòng kiểm tra lại thông tin");
             }
@@ -272,6 +278,17 @@ namespace QLBHST.GUII
             tbdc.Text = b;
         }
 
-       
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            var form2 = new Menu();
+            form2.Closed += (s, args) => this.Close();
+            form2.Show();
+        }
+
+        private void tbemail_TextChanged(object sender, EventArgs e)
+        {
+            
+        }
     }
 }

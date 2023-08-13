@@ -38,8 +38,33 @@ namespace QLBHST.DALL
         {
             SqlConnection conn = CreateConnection();
             conn.Open();
-            SqlCommand cmd = new SqlCommand("select * from SanPham where TenSanPham LIKE '%' + @TenSanPham + '%' ", conn);
+            SqlCommand cmd = new SqlCommand("select * from SanPham where MaSanPham=@MaSanPham or TenSanPham LIKE '%' + @TenSanPham + '%' ", conn);
             cmd.Parameters.Add(new SqlParameter("@TenSanPham", cus.Ten));
+            cmd.Parameters.Add(new SqlParameter("@MaSanPham", cus.Ma));
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            List<SanPhamBEL> lstCus = new List<SanPhamBEL>();
+
+            while (reader.Read())
+            {
+                SanPhamBEL cus1 = new SanPhamBEL();
+                cus1.Ma = int.Parse(reader["MaSanPham"].ToString());
+                cus1.Ten = reader["TenSanPham"].ToString();
+                cus1.Gia = int.Parse(reader["GiaBan"].ToString());
+                cus1.Soluong = int.Parse(reader["SoLuongTonKho"].ToString());
+                cus1.Ncc = reader["NhaCungCap"].ToString();
+                cus1.Anh = reader["Anh"].ToString();
+                lstCus.Add(cus1);
+            }
+            conn.Close();
+            return lstCus;
+        }
+        public List<SanPhamBEL> Timkiem1(SanPhamBEL cus)
+        {
+            SqlConnection conn = CreateConnection();
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("select * from SanPham where MaSanPham=@MaSanPham", conn);
+            cmd.Parameters.Add(new SqlParameter("@MaSanPham", cus.Ma));
             SqlDataReader reader = cmd.ExecuteReader();
 
             List<SanPhamBEL> lstCus = new List<SanPhamBEL>();

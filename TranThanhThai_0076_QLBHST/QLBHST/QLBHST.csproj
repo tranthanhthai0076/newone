@@ -147,12 +147,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BALL\CustomerBAL.cs" />
-    <Compile Include="BALL\SanPhamBAL - Copy.cs" />
+    <Compile Include="BALL\CthdBAL.cs" />
+    <Compile Include="BALL\HoaDonBAL.cs" />
+    <Compile Include="BALL\NhanVienBAL.cs" />
+    <Compile Include="BALL\KhachHangBAL.cs" />
     <Compile Include="BALL\SanPhamBAL.cs" />
     <Compile Include="BALL\NhaCungCapBAL.cs" />
     <Compile Include="BALL\TaiKhoanBAL.cs" />
     <Compile Include="DALL\DBConnection.cs" />
     <Compile Include="DALL\CustomerDAL.cs" />
+    <Compile Include="DALL\CthdDAL.cs" />
+    <Compile Include="DALL\HoaDonDAL.cs" />
+    <Compile Include="DALL\NhanVienDAL.cs" />
+    <Compile Include="DALL\KhachHangDAL.cs" />
     <Compile Include="DALL\SanPhamDAL.cs" />
     <Compile Include="DALL\NhaCungCapDAL.cs" />
     <Compile Include="DALL\TaiKhoanDAL.cs" />
@@ -180,6 +187,18 @@
     <Compile Include="GUII\Gdht.Designer.cs">
       <DependentUpon>Gdht.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUII\HoaDon.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUII\HoaDon.Designer.cs">
+      <DependentUpon>HoaDon.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUII\Menu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUII\Menu.Designer.cs">
+      <DependentUpon>Menu.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUII\nhacc.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -193,7 +212,10 @@
       <DependentUpon>quenmk.cs</DependentUpon>
     </Compile>
     <Compile Include="MODELL\CustomerBEL.cs" />
-    <Compile Include="MODELL\NhaccBEL.cs" />
+    <Compile Include="MODELL\CthdBEL.cs" />
+    <Compile Include="MODELL\HoaDonBEL.cs" />
+    <Compile Include="MODELL\NhanVienBEL.cs" />
+    <Compile Include="MODELL\KhachHangBEL.cs" />
     <Compile Include="MODELL\SanPhamBEL.cs" />
     <Compile Include="MODELL\NhaCungCapBEL.cs" />
     <Compile Include="MODELL\TaiKhoanBEL.cs" />
@@ -210,6 +232,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUII\Gdht.resx">
       <DependentUpon>Gdht.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUII\HoaDon.resx">
+      <DependentUpon>HoaDon.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUII\Menu.resx">
+      <DependentUpon>Menu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUII\nhacc.resx">
       <DependentUpon>nhacc.cs</DependentUpon>

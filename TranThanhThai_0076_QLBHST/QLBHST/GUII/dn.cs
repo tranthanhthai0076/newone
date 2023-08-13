@@ -54,7 +54,7 @@ namespace QLBHST.GUII
                     if (cus.Tentk == tk1 && cus.Matkhau == mk1)
                     {
                         this.Hide();
-                        var form2 = new nhacc();
+                        var form2 = new Menu();
                         form2.Closed += (s, args) => this.Close();
                         form2.Show();
                         dn = true;

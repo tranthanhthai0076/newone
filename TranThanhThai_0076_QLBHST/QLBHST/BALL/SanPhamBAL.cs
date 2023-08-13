@@ -34,6 +34,11 @@ namespace QLBHST.BALL
             List<SanPhamBEL> lstCus = dal.Timkiem(cus);
             return lstCus;
         }
+        public List<SanPhamBEL> Timkiem1(SanPhamBEL cus)
+        {
+            List<SanPhamBEL> lstCus = dal.Timkiem1(cus);
+            return lstCus;
+        }
 
     }
 }

@@ -47,6 +47,7 @@
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnEdit = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvNcc)).BeginInit();
             this.SuspendLayout();
             // 
@@ -66,7 +67,7 @@
             this.dgvNcc.RowHeadersWidth = 51;
             this.dgvNcc.RowTemplate.Height = 24;
             this.dgvNcc.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvNcc.Size = new System.Drawing.Size(685, 150);
+            this.dgvNcc.Size = new System.Drawing.Size(851, 150);
             this.dgvNcc.TabIndex = 0;
             this.dgvNcc.SelectionChanged += new System.EventHandler(this.dgvNcc_SelectionChanged);
             // 
@@ -191,7 +192,7 @@
             this.tbemail.Name = "tbemail";
             this.tbemail.Size = new System.Drawing.Size(180, 22);
             this.tbemail.TabIndex = 10;
-
+            this.tbemail.TextChanged += new System.EventHandler(this.tbemail_TextChanged);
             // 
             // btnAdd
             // 
@@ -200,7 +201,7 @@
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(75, 23);
             this.btnAdd.TabIndex = 11;
-            this.btnAdd.Text = "button1";
+            this.btnAdd.Text = "Thêm";
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
@@ -211,7 +212,7 @@
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(75, 23);
             this.btnEdit.TabIndex = 12;
-            this.btnEdit.Text = "button1";
+            this.btnEdit.Text = "sua";
             this.btnEdit.UseVisualStyleBackColor = true;
             this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
@@ -222,15 +223,26 @@
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(75, 23);
             this.btnExit.TabIndex = 13;
-            this.btnExit.Text = "button1";
+            this.btnExit.Text = "xoa";
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(762, 415);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 14;
+            this.button1.Text = "Quay lại";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // nhacc
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1073, 295);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnEdit);
             this.Controls.Add(this.btnAdd);
@@ -276,5 +288,6 @@
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnEdit;
         private System.Windows.Forms.Button btnExit;
+        private System.Windows.Forms.Button button1;
     }
 }
