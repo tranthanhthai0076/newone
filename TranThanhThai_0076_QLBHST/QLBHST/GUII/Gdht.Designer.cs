@@ -197,6 +197,7 @@
             this.tbsl.Name = "tbsl";
             this.tbsl.Size = new System.Drawing.Size(183, 27);
             this.tbsl.TabIndex = 11;
+         
             // 
             // sreach
             // 
@@ -386,8 +387,8 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ComboBox cbbncc;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.ComboBox cbbncc;
     }
 }

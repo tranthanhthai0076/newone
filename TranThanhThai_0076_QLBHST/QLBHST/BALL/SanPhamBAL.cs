@@ -1,4 +1,5 @@
-﻿using QLBHST.DALL;
+﻿
+using QLBHST.DALL;
 using QLBHST.MODELL;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,10 @@ namespace QLBHST.BALL
         public void EditSanPham(SanPhamBEL cus)
         {
             dal.EditSanPham(cus);
+        }
+        public void capnhatsl(SanPhamBEL cus)
+        {
+            dal.capnhatsl(cus);
         }
         public List<SanPhamBEL> Timkiem(SanPhamBEL cus)
         {

@@ -11,8 +11,10 @@ namespace QLBHST.MODELL
         public int id { get; set; }
         public int mahd { get; set; }
         public int masp { get; set; }
+        public string tensp { get; set; }
         public int sl { get; set; }
         public int dg { get; set; }
-       
+        public int tt { get; set; }
+
     }
 }

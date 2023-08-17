@@ -11,11 +11,12 @@ namespace QLBHST.BALL
     public class CthdBAL
     {
         CthdDAL dal = new CthdDAL();
-        public List<CthdBEL> ReadHoaDon()
+        public List<CthdBEL> timkiem(CthdBEL cus1)
         {
-            List<CthdBEL> lstCus = dal.ReadHoaDon();
+            List<CthdBEL> lstCus = dal.timkiem(cus1);
             return lstCus;
         }
+       
 
         //public void AddHoaDon(CthdBEL cus)
         //{

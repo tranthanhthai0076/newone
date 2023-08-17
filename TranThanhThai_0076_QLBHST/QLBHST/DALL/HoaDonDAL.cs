@@ -34,6 +34,7 @@ namespace QLBHST.DALL
             conn.Close();
             return lstCus;
         }
+       
         //public void AddHoaDon(HoaDonBEL cus)
         //{
         //    SqlConnection conn = CreateConnection();
@@ -68,29 +69,20 @@ namespace QLBHST.DALL
             }
             return insertedHoaDonId;
         }
+        public void EditHoaDon(HoaDonBEL cus)
+        {
+            SqlConnection conn = CreateConnection();
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("update HoaDon set MaKhachHang=@MaKhachHang ,MaNhanVien=@MaNhanVien,TongTienHoaDon=@TongTienHoaDon where MaHoaDon=@MaHoaDon ", conn);
+            cmd.Parameters.Add(new SqlParameter("@MaHoaDon", cus.Mahd));
+            cmd.Parameters.Add(new SqlParameter("@MaKhachHang", cus.Makh));
+            cmd.Parameters.Add(new SqlParameter("@MaNhanVien", cus.Manv));
+            cmd.Parameters.Add(new SqlParameter("@TongTienHoaDon", cus.tongtien));
 
-        //public List<KhachHangBEL> ReadKhachHang1(KhachHangBEL cus1)
-        //{
-        //    SqlConnection conn = CreateConnection();
-        //    conn.Open();
-        //    SqlCommand cmd = new SqlCommand("select * from KhachHang where makhachhang=@makhachhang ", conn);
+            cmd.ExecuteNonQuery();
+            conn.Close();
+        }
 
-        //    cmd.Parameters.Add(new SqlParameter("@makhachhang", cus1.Ma));
-        //    SqlDataReader reader = cmd.ExecuteReader();
-        //    List<KhachHangBEL> lstCus = new List<KhachHangBEL>();
-
-        //    while (reader.Read())
-        //    {
-        //        KhachHangBEL cus = new KhachHangBEL();
-        //        cus.Ten = reader["TenKhachHang"].ToString();
-        //        cus.Dc = reader["DiaChi"].ToString();
-        //        cus.Sdt = reader["SoDienThoai"].ToString();
-        //        cus.Email = reader["EMAIL"].ToString();
-        //        lstCus.Add(cus);
-        //    }
-        //    conn.Close();
-        //    return lstCus;
-        //}
 
     }
 }

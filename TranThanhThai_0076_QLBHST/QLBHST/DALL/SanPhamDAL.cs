@@ -98,6 +98,16 @@ namespace QLBHST.DALL
             cmd.ExecuteNonQuery();
             conn.Close();
         }
+        public void capnhatsl(SanPhamBEL cus)
+        {
+            SqlConnection conn = CreateConnection();
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("update SanPham set SoLuongTonKho=SoLuongTonKho-@SoLuongTonKho where MaSanPham=@MaSanPham ", conn);
+            cmd.Parameters.Add(new SqlParameter("@MaSanPham", cus.Ma));         
+            cmd.Parameters.Add(new SqlParameter("@SoLuongTonKho", cus.Soluong));
+            cmd.ExecuteNonQuery();
+            conn.Close();
+        }
         public void DeleteSanPham(SanPhamBEL cus)
         {
             SqlConnection conn = CreateConnection();

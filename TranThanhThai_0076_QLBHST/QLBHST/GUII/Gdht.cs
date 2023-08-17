@@ -413,9 +413,9 @@ namespace QLBHST.GUII
                 tbgia.Select(tbgia.Text.Length, 0);
 
                 // Convert the decimal value to an integer (possible loss of precision)
-                 intValue = (int)value;
-               
-            }            
+                intValue = (int)value;
+
+            }
         }
 
 
@@ -501,5 +501,7 @@ namespace QLBHST.GUII
             form2.Closed += (s, args) => this.Close();
             form2.Show();
         }
+
+     
     }
 }

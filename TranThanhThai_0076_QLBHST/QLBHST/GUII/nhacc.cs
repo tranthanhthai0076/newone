@@ -136,7 +136,7 @@ namespace QLBHST.GUII
                     MessageBox.Show("Không thể thêm. Vui lòng kiểm tra lại thông tin");
                 }
             }
-            catch (Exception ex)
+            catch 
             {
                 MessageBox.Show("Không thể thêm. Vui lòng kiểm tra lại thông tin");
             }
@@ -221,7 +221,7 @@ namespace QLBHST.GUII
                 int idx = dgvNcc.CurrentCell.RowIndex;
                 dgvNcc.Rows.RemoveAt(idx);
             }
-            catch (Exception ex)
+            catch 
             {
                 MessageBox.Show("Khong the xoa");
             }

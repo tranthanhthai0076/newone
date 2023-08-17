@@ -11,13 +11,14 @@ namespace QLBHST.DALL
 {
     internal class CthdDAL : DBConnection
     {
-        public List<CthdBEL> ReadHoaDon()
+        public List<CthdBEL> timkiem(CthdBEL cus1)
         {
             SqlConnection conn = CreateConnection();
             conn.Open();
-            SqlCommand cmd = new SqlCommand("select * from HoaDon ", conn);
-
+            SqlCommand cmd = new SqlCommand("select * from showct ct where MaHoaDon=@MaHoaDon ", conn);
+            cmd.Parameters.Add(new SqlParameter("@MaHoaDon", cus1.mahd));
             SqlDataReader reader = cmd.ExecuteReader();
+        
 
             List<CthdBEL> lstCus = new List<CthdBEL>();
 
@@ -27,8 +28,34 @@ namespace QLBHST.DALL
                 cus.id = int.Parse(reader["ID"].ToString());
                 cus.mahd = int.Parse(reader["MaHoaDon"].ToString());
                 cus.masp = int.Parse(reader["MaSanPham"].ToString());
+                cus.tensp = reader["TenSanPham"].ToString();
                 cus.sl = int.Parse(reader["SoLuongMua"].ToString());
                 cus.dg = int.Parse(reader["DonGia"].ToString());
+                cus.tt = int.Parse(reader["tongtien"].ToString());
+                lstCus.Add(cus);
+            }
+            conn.Close();
+            return lstCus;
+        }
+
+        public List<HoaDonBEL> ReadHoaDonchitiet()
+        {
+            SqlConnection conn = CreateConnection();
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("select * from  ", conn);
+
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            List<HoaDonBEL> lstCus = new List<HoaDonBEL>();
+
+            while (reader.Read())
+            {
+                HoaDonBEL cus = new HoaDonBEL();
+                cus.Mahd = int.Parse(reader["MaHoaDon"].ToString());
+                cus.Makh = int.Parse(reader["MaKhachHang"].ToString());
+                cus.Manv = int.Parse(reader["MaNhanVien"].ToString());
+                cus.ngaymua = DateTime.Parse(reader["NgayMua"].ToString());
+                cus.tongtien = int.Parse(reader["TongTienHoaDon"].ToString());
                 lstCus.Add(cus);
             }
             conn.Close();
