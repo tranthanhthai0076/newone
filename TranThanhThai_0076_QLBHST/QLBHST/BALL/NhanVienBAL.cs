@@ -21,6 +21,7 @@ namespace QLBHST.BALL
             List<NhanVienBEL> lstCus = dal.ReadNV1(cus);
             return lstCus;
         }
+       
 
     }
 }

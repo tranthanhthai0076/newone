@@ -21,6 +21,18 @@ namespace QLBHST.BALL
             List<KhachHangBEL> lstCus = dal.ReadKhachHang1(cus);
             return lstCus;
         }
+        public void Addkh(KhachHangBEL cus)
+        {
+            dal.Addkh(cus);
+        }
+        public void EditKhachhang(KhachHangBEL cus)
+        {
+            dal.EditKhachhang(cus);
+        }
+        public void DeleteKhachHang(KhachHangBEL cus)
+        {
+            dal.DeleteKhachHang(cus);
+        }
 
     }
 }

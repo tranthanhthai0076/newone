@@ -53,6 +53,7 @@ namespace QLBHST.GUII
                 {
                     if (cus.Tentk == tk1 && cus.Matkhau == mk1)
                     {
+                        MessageBox.Show("Đăng nhập thành công");
                         this.Hide();
                         var form2 = new Menu();
                         form2.Closed += (s, args) => this.Close();
@@ -75,20 +76,13 @@ namespace QLBHST.GUII
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            this.Hide();
-            var form2 = new quenmk();
-            form2.Closed += (s, args) => this.Close();
-            form2.Show();
+            
             
         }
 
         private void btnDki(object sender, EventArgs e)
         {
-            this.Hide();
-            var form2 = new dk();
-            form2.Closed += (s, args) => this.Close();
-            form2.Show();
-            
+           
         }
     }
 }

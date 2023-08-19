@@ -1,14 +1,11 @@
-﻿using FluentValidation;
-using QLBHST.BALL;
+﻿using QLBHST.BALL;
 using QLBHST.MODELL;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Net.Mail;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -16,25 +13,21 @@ using System.Windows.Forms;
 
 namespace QLBHST.GUII
 {
-    public partial class nhacc : Form
+    public partial class khachhang : Form
     {
-        NhaCungCapBAL cusBAL1 = new NhaCungCapBAL();
-        public nhacc()
+        KhachHangBAL cusBAL1 = new KhachHangBAL();
+        public khachhang()
         {
             InitializeComponent();
-            tbma.Enabled = false;
         }
 
-        private void nhacc_Load(object sender, EventArgs e)
+        static bool IsValidPhoneNumber(string phoneNumber)
         {
-            List<NhaCungCapBEL> lstCus = cusBAL1.ReadNhaCungCap();
-            foreach (NhaCungCapBEL cus in lstCus)
-            {
-                dgvNcc.Rows.Add(cus.Ma, cus.Ten, cus.Diachi, cus.sdt, cus.Email);
-            }
-           
-        }
+            string pattern = @"^(0|84)\d{9,10}$"; // Số điện thoại bắt đầu bằng 0 hoặc 84 và có 9-10 chữ số
 
+            Regex regex = new Regex(pattern);
+            return regex.IsMatch(phoneNumber);
+        }
         private bool IsValidInput(string input)
         {
             // Kiểm tra nếu chuỗi bỏ trống hoặc chỉ toàn khoảng trắng
@@ -94,7 +87,6 @@ namespace QLBHST.GUII
 
             return string.Join(" ", words);
         }
-      
         private void btnAdd_Click(object sender, EventArgs e)
         {
             try
@@ -117,18 +109,18 @@ namespace QLBHST.GUII
                 }
                 if (IsValidInput(a) && sdt == true && IsValidInput(a1))
                 {
-                    NhaCungCapBEL cus = new NhaCungCapBEL();
+                    KhachHangBEL cus = new KhachHangBEL();
                     cus.Ten = a;
-                    cus.Diachi = a1;
-                    cus.sdt = tbsdt.Text;
+                    cus.Dc = a1;
+                    cus.Sdt = tbsdt.Text;
                     cus.Email = tbemail.Text;
-                    cusBAL1.AddNhaCungCap(cus);
+                    cusBAL1.Addkh(cus);
                     dgvNcc.Rows.Clear();
                     //dgvSanpham.Rows.Add( cus.Ten, cus.Soluong, cus.Gia, cus.Ncc, cus.Anh);
-                    List<NhaCungCapBEL> lstCus = cusBAL1.ReadNhaCungCap();
-                    foreach (NhaCungCapBEL c in lstCus)
+                    List<KhachHangBEL> lstCus = cusBAL1.ReadKhachHang();
+                    foreach (KhachHangBEL c in lstCus)
                     {
-                        dgvNcc.Rows.Add(c.Ma, c.Ten, c.Diachi, c.sdt, c.Email);
+                        dgvNcc.Rows.Add(c.Ma, c.Ten, c.Dc, c.Sdt, c.Email);
                     }
                     MessageBox.Show("Thêm thành công");
                 }
@@ -137,12 +129,74 @@ namespace QLBHST.GUII
                     MessageBox.Show("Không thể thêm. Vui lòng kiểm tra lại thông tin");
                 }
             }
-            catch 
+            catch
             {
                 MessageBox.Show("Không thể thêm. Vui lòng kiểm tra lại thông tin");
             }
-          }
+        }
 
+        private void tbt_TextChanged(object sender, EventArgs e)
+        {
+            string a = TrimLeadingSpaces(tbt.Text);
+            string b = ProcessSpaces(a);
+            tbt.Text = b;
+        }
+
+        private void tbdc_TextChanged(object sender, EventArgs e)
+        {
+            string a = TrimLeadingSpaces(tbdc.Text);
+            string b = ProcessSpaces(a);
+            tbdc.Text = b;
+        }
+
+        private void khachhang_Load(object sender, EventArgs e)
+        {
+            List<KhachHangBEL> lstCus = cusBAL1.ReadKhachHang();
+            foreach (KhachHangBEL c in lstCus)
+            {
+                dgvNcc.Rows.Add(c.Ma, c.Ten, c.Dc, c.Sdt, c.Email);
+            }
+        }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                KhachHangBEL cus = new KhachHangBEL();
+                cus.Ma = int.Parse(tbma.Text);
+                cusBAL1.DeleteKhachHang(cus);
+                int idx = dgvNcc.CurrentCell.RowIndex;
+                dgvNcc.Rows.RemoveAt(idx);
+                MessageBox.Show("Xóa thành công");
+            }
+            catch
+            {
+                MessageBox.Show("Khong the xoa. Tồn tai khách hàng trong hóa đơn");
+            }
+        }
+        private void dgvkh_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dgvNcc.SelectedCells.Count > 0)
+            {
+
+                tbma.Text = dgvNcc.SelectedCells[0].Value.ToString();
+                tbt.Text = dgvNcc.SelectedCells[1].Value.ToString();
+                tbdc.Text = dgvNcc.SelectedCells[2].Value.ToString();
+                tbsdt.Text = dgvNcc.SelectedCells[3].Value.ToString();
+                tbemail.Text = dgvNcc.SelectedCells[4].Value.ToString();
+                //age.Text = dgvcustomer.SelectedCells[2].Value.ToString
+
+            }
+            else
+            {
+                tbma.Text = null;
+                tbt.Text = null;
+                tbdc.Text = null;
+                tbsdt.Text = null;
+                tbemail.Text = null;
+
+            }
+        }
         private void btnEdit_Click(object sender, EventArgs e)
         {
             try
@@ -160,14 +214,14 @@ namespace QLBHST.GUII
                 string a1 = tbdc.Text + " ";
                 if (IsValidInput(a) && sdt == true && IsValidInput(a1))
                 {
-                    NhaCungCapBEL cus = new NhaCungCapBEL();
+                    KhachHangBEL cus = new KhachHangBEL();
                     cus.Ma = int.Parse(tbma.Text);
 
                     cus.Ten = tbt.Text;
-                    cus.Diachi = tbdc.Text;
-                    cus.sdt = tbsdt.Text;
+                    cus.Dc = tbdc.Text;
+                    cus.Sdt = tbsdt.Text;
                     cus.Email = tbemail.Text;
-                    cusBAL1.EditNhaCungCap(cus);
+                    cusBAL1.EditKhachhang(cus);
                     int idx = dgvNcc.CurrentCell.RowIndex;
                     dgvNcc.Rows[idx].Cells[0].Value = tbma.Text;
                     dgvNcc.Rows[idx].Cells[1].Value = tbt.Text;
@@ -185,100 +239,7 @@ namespace QLBHST.GUII
             {
                 MessageBox.Show("Không thể sửa. Vui lòng kiểm tra lại thông tin");
             }
-            
-          
-        }
 
-        private void dgvNcc_SelectionChanged(object sender, EventArgs e)
-        {
-            if (dgvNcc.SelectedCells.Count > 0)
-            {
-
-                tbma.Text = dgvNcc.SelectedCells[0].Value.ToString();
-                tbt.Text = dgvNcc.SelectedCells[1].Value.ToString();
-                tbdc.Text = dgvNcc.SelectedCells[2].Value.ToString();
-                tbsdt.Text = dgvNcc.SelectedCells[3].Value.ToString();
-                tbemail.Text = dgvNcc.SelectedCells[4].Value.ToString();
-                //age.Text = dgvcustomer.SelectedCells[2].Value.ToString
-               
-            }
-            else
-            {
-                tbma.Text = null;
-                tbt.Text = null;
-                tbdc.Text = null;
-                tbsdt.Text = null;
-                tbemail.Text = null;
-                
-            }
-        }
-
-        private void btnExit_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                NhaCungCapBEL cus = new NhaCungCapBEL();
-                cus.Ma = int.Parse(tbma.Text);
-                cusBAL1.DeleteNhaCungCap(cus);
-                int idx = dgvNcc.CurrentCell.RowIndex;
-                dgvNcc.Rows.RemoveAt(idx);
-                MessageBox.Show("Xóa thành công");
-            }
-            catch 
-            {
-                MessageBox.Show("Khong the xoa");
-            }
-            
-            //if (dgvNcc.SelectedRows.Count == 0)
-            //{
-            //    MessageBox.Show("Vui lòng chọn nhà cung cấp để xóa!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //    return;
-            //}
-
-            //DialogResult result = MessageBox.Show("Bạn có chắc chắn muốn xóa nhà cung cấp này?", "Xác nhận xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-
-            //if (result == DialogResult.Yes)
-            //{
-            //    DataGridViewRow selectedRow = dgvNcc.SelectedRows[0];
-
-            //    string id = selectedRow.Cells[0].Value.ToString();
-
-            //    // Call your delete method from the BAL class using the selected ID
-
-
-            //    dgvNcc.Rows.Remove(selectedRow);
-
-            //    MessageBox.Show("Nhà cung cấp đã được xóa thành công!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //}
-        }
-        //static bool CheckContainsAlphaOrDigit(string inputString)
-        //{
-        //    return inputString.Any(c => char.IsLetterOrDigit(c));
-        //}
-        //static bool CheckOnlyDigits(string inputString)
-        //{
-        //    return inputString.All(c => char.IsDigit(c));
-        //}
-        static bool IsValidPhoneNumber(string phoneNumber)
-        {
-            string pattern = @"^(0|84)\d{9,10}$"; // Số điện thoại bắt đầu bằng 0 hoặc 84 và có 9-10 chữ số
-
-            Regex regex = new Regex(pattern);
-            return regex.IsMatch(phoneNumber);
-        }
-
-        private void tbt_TextChanged(object sender, EventArgs e)
-        {
-            string a = TrimLeadingSpaces(tbt.Text);
-            string b = ProcessSpaces(a);
-            tbt.Text = b;
-        }
-
-        private void tbdc_TextChanged(object sender, EventArgs e)
-        {
-            string a = TrimLeadingSpaces(tbdc.Text);
-            string b = ProcessSpaces(a);
-            tbdc.Text = b;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -287,51 +248,6 @@ namespace QLBHST.GUII
             var form2 = new Menu();
             form2.Closed += (s, args) => this.Close();
             form2.Show();
-        }
-
-        private void tbma_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tbemail_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tbsdt_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dgvNcc_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
         }
     }
 }

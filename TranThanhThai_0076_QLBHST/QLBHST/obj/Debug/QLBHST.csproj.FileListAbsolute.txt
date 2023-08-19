@@ -43,3 +43,5 @@ C:\Users\MSII\Desktop\c#\TranThanhThai_0076_QLBHST\QLBHST\bin\Debug\FluentValida
 C:\Users\MSII\Desktop\c#\TranThanhThai_0076_QLBHST\QLBHST\bin\Debug\System.Threading.Tasks.Extensions.xml
 C:\Users\MSII\Desktop\c#\TranThanhThai_0076_QLBHST\QLBHST\obj\Debug\QLBHST.GUII.Menu.resources
 C:\Users\MSII\Desktop\c#\TranThanhThai_0076_QLBHST\QLBHST\obj\Debug\QLBHST.GUII.HoaDon.resources
+C:\Users\MSII\Desktop\c#\TranThanhThai_0076_QLBHST\QLBHST\obj\Debug\QLBHST.GUII.khachhang.resources
+C:\Users\MSII\Desktop\c#\TranThanhThai_0076_QLBHST\QLBHST\obj\Debug\QLBHST.GUII.daban.resources

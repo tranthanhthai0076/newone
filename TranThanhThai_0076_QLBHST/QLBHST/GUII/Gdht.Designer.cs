@@ -197,7 +197,6 @@
             this.tbsl.Name = "tbsl";
             this.tbsl.Size = new System.Drawing.Size(183, 27);
             this.tbsl.TabIndex = 11;
-         
             // 
             // sreach
             // 
@@ -300,7 +299,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(582, 354);
+            this.button1.Location = new System.Drawing.Point(579, 474);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(170, 23);
             this.button1.TabIndex = 18;

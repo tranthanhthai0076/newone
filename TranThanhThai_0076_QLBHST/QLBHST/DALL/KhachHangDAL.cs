@@ -56,6 +56,45 @@ namespace QLBHST.DALL
             conn.Close();
             return lstCus;
         }
+        public void Addkh(KhachHangBEL cus)
+        {
+            SqlConnection conn = CreateConnection();
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("insert into KhachHang values(@TenKhachHang,@DiaChi,@SoDienThoai,@Email)", conn);
+
+            cmd.Parameters.Add(new SqlParameter("@TenKhachHang", cus.Ten));
+            cmd.Parameters.Add(new SqlParameter("@DiaChi", cus.Dc));
+            cmd.Parameters.Add(new SqlParameter("@SoDienThoai", cus.Sdt));
+            cmd.Parameters.Add(new SqlParameter("@Email", cus.Email));
+            cmd.ExecuteNonQuery();
+            conn.Close();
+        }
+        public void DeleteKhachHang(KhachHangBEL cus)
+        {
+            SqlConnection conn = CreateConnection();
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("delete  KhachHang where MaKhachHang=@MaKhachHang", conn);
+            cmd.Parameters.Add(new SqlParameter("@MaKhachHang", cus.Ma));
+            cmd.ExecuteNonQuery();
+            //SqlCommand cmd1 = new SqlCommand("DBCC CHECKIDENT('KhachHang', RESEED, 0)", conn);
+            //cmd1.Parameters.Add(new SqlParameter("@MaKhachHang", cus.Ma));
+            //cmd1.ExecuteNonQuery();
+            conn.Close();
+        }
+        public void EditKhachhang(KhachHangBEL cus)
+        {
+            SqlConnection conn = CreateConnection();
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("update KhachHang set TenKhachHang=@TenKhachHang ,DiaChi=@DiaChi,SoDienThoai=@SoDienThoai,Email=@Email where MaKhachHang=@MaKhachHang ", conn);
+            cmd.Parameters.Add(new SqlParameter("@MaKhachHang", cus.Ma));
+            cmd.Parameters.Add(new SqlParameter("@TenKhachHang", cus.Ten));
+            cmd.Parameters.Add(new SqlParameter("@DiaChi", cus.Dc));
+            cmd.Parameters.Add(new SqlParameter("@SoDienThoai", cus.Sdt));
+            cmd.Parameters.Add(new SqlParameter("@Email", cus.Email));
+
+            cmd.ExecuteNonQuery();
+            conn.Close();
+        }
 
     }
 }

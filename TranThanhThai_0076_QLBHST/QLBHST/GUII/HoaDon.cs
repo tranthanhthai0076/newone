@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.Drawing.Printing;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -131,74 +132,86 @@ namespace QLBHST.GUII
 }
 
 
-        int tt,ttcn;
+        int tt;
         private bool CheckIfValueExistsInDataGridView(string valueToCheck)
         {
             foreach (DataGridViewRow row in dgvsp.Rows)
             {
-                string columnName = row.Cells[2].Value.ToString(); // Chỉ số cột chứa giá trị cần kiểm tra (cbbmasp.Text)
+                string columnName = row.Cells[2].Value.ToString();
                 if (columnName == valueToCheck)
                 {
-                    return true; // Giá trị đã tồn tại
+                    return true;
                 }
             }
-            return false; // Không tìm thấy giá trị
+
+            return false; // Trả về false nếu không tìm thấy giá trị
         }
+
 
         private void button4_Click(object sender, EventArgs e)
         {
-            string atam = TrimLeadingSpaces(tbsl.Text);
-            string btam = ProcessSpaces(atam);
-            tbsl.Text = btam;
-            string a1 = tbsl.Text;
+            try
+            {
+                string atam = TrimLeadingSpaces(tbsl.Text);
+                string btam = ProcessSpaces(atam);
+                tbsl.Text = btam;
+                string a1 = tbsl.Text;
 
-            if (cbbmasp.Text!="") {
-                if (CheckContainsAlphaOrDigit(a1)
-                              || string.IsNullOrEmpty(a1) || int.Parse(a1) < 1)
-
+                if (cbbmasp.Text != "")
                 {
-                    MessageBox.Show("Kiem tra lại sl");
-                    tbsl.Text = "";
+                    if (CheckContainsAlphaOrDigit(a1)
+                                  || string.IsNullOrEmpty(a1) || int.Parse(a1) < 1)
+
+                    {
+                        MessageBox.Show("Kiem tra lại sl");
+                        tbsl.Text = "";
+                    }
+
+                    else
+                    {
+                        string cbbmaspValue = cbbmasp.Text;
+                        int a = int.Parse(tbtk.Text);
+                        int b = int.Parse(tbsl.Text);
+                        if (a < b)
+                        {
+                            MessageBox.Show("Không đủ hàng");
+                            tbsl.Text = "1"; // Xóa giá trị không hợp lệ
+                        }
+                        else
+                        {
+
+
+                            if (!CheckIfValueExistsInDataGridView(cbbmaspValue))
+                            {
+                                dgvsp.Rows.Add("", "", cbbmaspValue, tbtsp.Text, tbsl.Text, tbgsp.Text, intValue);
+                                // Cập nhật tổng tiền
+                                tt = tt + intValue;
+
+
+
+                                tbtongtien.Text = tt.ToString();
+
+                                dataChanged = true; // Đã có thay đổi dữ liệu
+                            }
+                            else
+                            {
+                                MessageBox.Show("Đã có sản phẩm trong bảng.");
+                            }
+                        }
+
+                    }
                 }
 
                 else
                 {
-                    string cbbmaspValue = cbbmasp.Text;
-                    int a = int.Parse(tbtk.Text);
-                    int b = int.Parse(tbsl.Text);
-                    if (a < b)
-                    {
-                        MessageBox.Show("Không đủ hàng");
-                        tbsl.Text = "1"; // Xóa giá trị không hợp lệ
-                    }
-                    else
-                    {
-
-
-                        if (!CheckIfValueExistsInDataGridView(cbbmaspValue))
-                        {
-                            dgvsp.Rows.Add("", "", cbbmaspValue, tbtsp.Text, tbsl.Text, tbgsp.Text, intValue);
-                            // Cập nhật tổng tiền
-                            tt =tt+ intValue;
-                        
-
-
-                            tbtongtien.Text = tt.ToString();
-
-                            dataChanged = true; // Đã có thay đổi dữ liệu
-                        }
-                        else
-                        {
-                            MessageBox.Show("Đã có sản phẩm trong bảng.");
-                        }
-                    }
-
+                    MessageBox.Show("Kiểm tra mã sản phẩm.");
                 }
             }
-
-            else {
-                MessageBox.Show("Kiểm tra mã sản phẩm.");
+            catch
+            {
+                MessageBox.Show("Kiểm tra lại thông tin");
             }
+           
 
                
 
@@ -206,126 +219,170 @@ namespace QLBHST.GUII
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (IsDataGridViewEmpty(dgvsp))
+            try
             {
-                MessageBox.Show("Vui lòng nhập dữ liệu trong hóa đơn");
-            }
-            else
-            {
-                if (cbbmakh.Text !="" && cbbmanv.Text != "")
+                if (IsDataGridViewEmpty(dgvsp))
                 {
-
-                    HoaDonBEL cus = new HoaDonBEL();
-                    cus.Makh = int.Parse(cbbmakh.Text);
-                    cus.Manv = int.Parse(cbbmanv.Text);
-                    cus.ngaymua = DateTime.Now;
-                    cus.tongtien = intValue2;
-                    int a = cusBAL3.AddHoaDon(cus);
-
-                    foreach (DataGridViewRow row in dgvsp.Rows)
-                    {
-
-                        string columnName1 = a.ToString();
-                        string columnName2 = row.Cells[2].Value.ToString();
-                        string columnName3 = row.Cells[4].Value.ToString();
-                        string columnName4 = row.Cells[5].Value.ToString();
-                        //MessageBox.Show(columnName1);
-                        //MessageBox.Show(columnName2);
-                        //MessageBox.Show(columnName3);
-                        //MessageBox.Show(columnName4);
-                        //Mở kết nối đến cơ sở dữ liệu
-                        connection.Open();
-                        // Tạo câu lệnh SQL INSERT
-                        string insertQuery = "INSERT INTO ChiTietHoaDon VALUES (@MaHoaDon, @MaSanPham,@SoLuongMua,@DonGia)";
-                        // Tạo đối tượng Command
-                        SqlCommand cmd = new SqlCommand(insertQuery, connection);
-                        cmd.Parameters.AddWithValue("@MaHoaDon", int.Parse(columnName1));
-                        cmd.Parameters.AddWithValue("@MaSanPham", int.Parse(columnName2));
-                        cmd.Parameters.AddWithValue("@SoLuongMua", int.Parse(columnName3));
-                        cmd.Parameters.AddWithValue("@DonGia", int.Parse(columnName4));
-                        // Thực thi câu lệnh INSERT
-                        cmd.ExecuteNonQuery();
-                        // Đóng kết nối
-                        connection.Close();
-                        SanPhamBEL tk = new SanPhamBEL();
-                        tk.Ma = int.Parse(columnName2);
-                        tk.Soluong = int.Parse(columnName3);
-                        cusBAL2.capnhatsl(tk);
-                    }
-                    dgvhd.Rows.Clear();
-                    dgvsp.Rows.Clear();
-                    //dgvSanpham.Rows.Add( cus.Ten, cus.Soluong, cus.Gia, cus.Ncc, cus.Anh);
-                    List<HoaDonBEL> lstCus = cusBAL3.ReadHoaDon();
-                    foreach (HoaDonBEL c in lstCus)
-                    {
-                        dgvhd.Rows.Add(c.Mahd, c.Makh, c.Manv, c.ngaymua, c.tongtien);
-                    }
-                   
+                    MessageBox.Show("Vui lòng nhập dữ liệu trong hóa đơn");
                 }
                 else
                 {
-                    MessageBox.Show("Vui lòng nhập đủ thông tin");
+                    if (cbbmakh.Text != "" && cbbmanv.Text != "")
+                    {
+                        int mony1 = 0; // Khởi tạo giá trị ban đầu cho biến mony1
+
+                        foreach (DataGridViewRow row in dgvsp.Rows)
+                        {
+                            if (row.Cells[6].Value != null)
+                            {
+                                int mony = 0;
+                                if (int.TryParse(row.Cells[6].Value.ToString(), out mony))
+                                {
+                                    mony1 += mony;
+                                }
+                            }
+                        }
+
+                        // Ở đây, mony1 chứa tổng giá trị từ cột 6 của tất cả các dòng trong DataGridView
+
+
+                        HoaDonBEL cus = new HoaDonBEL();
+                        cus.Makh = int.Parse(cbbmakh.Text);
+                        cus.Manv = int.Parse(cbbmanv.Text);
+                        cus.ngaymua = DateTime.Now;
+                        cus.tongtien = mony1;
+                        int a = cusBAL3.AddHoaDon(cus);
+
+                        foreach (DataGridViewRow row in dgvsp.Rows)
+                        {
+
+                            string columnName1 = a.ToString();
+                            string columnName2 = row.Cells[2].Value.ToString();
+                            string columnName3 = row.Cells[4].Value.ToString();
+                            string columnName4 = row.Cells[5].Value.ToString();
+                            //MessageBox.Show(columnName1);
+                            //MessageBox.Show(columnName2);
+                            //MessageBox.Show(columnName3);
+                            //MessageBox.Show(columnName4);
+                            //Mở kết nối đến cơ sở dữ liệu
+                            connection.Open();
+                            // Tạo câu lệnh SQL INSERT
+                            string insertQuery = "INSERT INTO ChiTietHoaDon VALUES (@MaHoaDon, @MaSanPham,@SoLuongMua,@DonGia)";
+                            // Tạo đối tượng Command
+                            SqlCommand cmd = new SqlCommand(insertQuery, connection);
+                            cmd.Parameters.AddWithValue("@MaHoaDon", int.Parse(columnName1));
+                            cmd.Parameters.AddWithValue("@MaSanPham", int.Parse(columnName2));
+                            cmd.Parameters.AddWithValue("@SoLuongMua", int.Parse(columnName3));
+                            cmd.Parameters.AddWithValue("@DonGia", int.Parse(columnName4));
+                            // Thực thi câu lệnh INSERT
+                            cmd.ExecuteNonQuery();
+                            // Đóng kết nối
+                            connection.Close();
+                            SanPhamBEL tk = new SanPhamBEL();
+                            tk.Ma = int.Parse(columnName2);
+                            tk.Soluong = int.Parse(columnName3);
+                            cusBAL2.capnhatsl(tk);
+                        }
+                        dgvhd.Rows.Clear();
+                        dgvsp.Rows.Clear();
+                        //dgvSanpham.Rows.Add( cus.Ten, cus.Soluong, cus.Gia, cus.Ncc, cus.Anh);
+                        List<HoaDonBEL> lstCus = cusBAL3.ReadHoaDon();
+                        foreach (HoaDonBEL c in lstCus)
+                        {
+                            dgvhd.Rows.Add(c.Mahd, c.Makh, c.Manv, c.ngaymua, c.tongtien);
+                        }
+                        MessageBox.Show("Thêm hóa đơn thành công");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Vui lòng nhập đủ thông tin");
+                    }
                 }
             }
+            catch
+            {
+                MessageBox.Show("Kiểm tra lại thông tin");
+            }
+           
             
             
         }
         
         private void button5_Click(object sender, EventArgs e)
         {
-            if (IsDataGridViewEmpty(dgvsp))
+            try
             {
-                MessageBox.Show("Không có dữ liệu trong hóa đơn để sửa");
-            }
-            else
-            {
-                string atam = TrimLeadingSpaces(tbsl.Text);
-                string btam = ProcessSpaces(atam);
-                tbsl.Text = btam;
-                string a1 = tbsl.Text;
-
-
-                if (CheckContainsAlphaOrDigit(a1)
-                           || string.IsNullOrEmpty(a1) || int.Parse(a1) < 1)
-
+                if (IsDataGridViewEmpty(dgvsp))
                 {
-                    MessageBox.Show("Kiem tra lại sl");
-                    tbsl.Text = "";
+                    MessageBox.Show("Không có dữ liệu trong hóa đơn để sửa");
                 }
-
                 else
                 {
+                    string atam = TrimLeadingSpaces(tbsl.Text);
+                    string btam = ProcessSpaces(atam);
+                    tbsl.Text = btam;
+                    string a1 = tbsl.Text;
 
-                    int a = int.Parse(tbtk.Text);
-                    int b = int.Parse(tbsl.Text);
-                    if (a < b)
+
+                    if (CheckContainsAlphaOrDigit(a1)
+                               || string.IsNullOrEmpty(a1) || int.Parse(a1) < 1)
+
                     {
-                        MessageBox.Show("Không đủ hàng");
-                        tbsl.Text = "1"; // Xóa giá trị không hợp lệ
+                        MessageBox.Show("Kiem tra lại sl");
+                        tbsl.Text = "";
                     }
+
                     else
                     {
-                        int idx = dgvsp.CurrentCell.RowIndex;
-                        dgvsp.Rows[idx].Cells[0].Value = tbid.Text;
-                        dgvsp.Rows[idx].Cells[1].Value = tbhd.Text;
-                        dgvsp.Rows[idx].Cells[2].Value = cbbmasp.Text;
-                        dgvsp.Rows[idx].Cells[3].Value = tbtsp.Text;
-                        dgvsp.Rows[idx].Cells[4].Value = tbsl.Text;
-                        dgvsp.Rows[idx].Cells[5].Value = tbgsp.Text;
-                        dgvsp.Rows[idx].Cells[6].Value = intValue;
+                        string cbbmaspValue = cbbmasp.Text;
+                        int a = int.Parse(tbtk.Text);
+                        int b = int.Parse(tbsl.Text);
+                        if (a < b)
+                        {
+                            MessageBox.Show("Không đủ hàng");
+                            tbsl.Text = "1"; // Xóa giá trị không hợp lệ
+                        }
+                        else
+                        {
+                            if (!CheckIfValueExistsInDataGridView(cbbmaspValue))
+                            {
+                                int idx = dgvsp.CurrentCell.RowIndex;
+                                dgvsp.Rows[idx].Cells[0].Value = tbid.Text;
+                                dgvsp.Rows[idx].Cells[1].Value = tbhd.Text;
+                                dgvsp.Rows[idx].Cells[2].Value = cbbmasp.Text;
+                                dgvsp.Rows[idx].Cells[3].Value = tbtsp.Text;
+                                dgvsp.Rows[idx].Cells[4].Value = tbsl.Text;
+                                dgvsp.Rows[idx].Cells[5].Value = tbgsp.Text;
+                                dgvsp.Rows[idx].Cells[6].Value = intValue;
 
 
-                        // Cập nhật tổng tiền
-                        ttcn = tt - tam + intValue;
-                        tbtongtien.Text = ttcn.ToString();
 
-                        dataChanged = true; // Đã có thay đổi dữ liệu
+                                dataChanged = true; // Đã có thay đổi dữ liệu
+                            }
+                            else
+                            {
+                                int idx = dgvsp.CurrentCell.RowIndex;
 
+                                dgvsp.Rows[idx].Cells[4].Value = tbsl.Text;
+                                dgvsp.Rows[idx].Cells[5].Value = tbgsp.Text;
+                                dgvsp.Rows[idx].Cells[6].Value = intValue;
+
+
+                                dataChanged = true; // Đã có thay đổi dữ liệu
+                            }
+
+
+
+                        }
 
                     }
-
                 }
             }
+            catch
+            {
+                MessageBox.Show("Kiểm tra lại thông tin");
+            }
+           
 
            
         }
@@ -402,227 +459,395 @@ namespace QLBHST.GUII
         }
         private void CheckChanges()
         {
-
-            if (textBox1Changed || textBox2Changed)
+            try
             {
-                if (int.TryParse(tbsl.Text, out int quantity) && int.TryParse(tbgsp.Text, out int price))
+                if (textBox1Changed || textBox2Changed)
                 {
-                    int totalPrice = quantity * price;
-                    tbtt.Text = totalPrice.ToString();
+                    if (int.TryParse(tbsl.Text, out int quantity) && int.TryParse(tbgsp.Text, out int price))
+                    {
+                        int totalPrice = quantity * price;
+                        tbtt.Text = totalPrice.ToString();
 
-                    // Hiển thị tổng tiền với 2 chữ số thập phân
+                        // Hiển thị tổng tiền với 2 chữ số thập phân
+                    }
+                    else
+                    {
+                        tbtt.Text = "Invalid Input"; // Hiển thị thông báo nếu dữ liệu không hợp lệ
+                    }
                 }
                 else
                 {
-                    tbtt.Text = "Invalid Input"; // Hiển thị thông báo nếu dữ liệu không hợp lệ
+                    MessageBox.Show("aaa");
                 }
             }
-            else
+            catch
             {
-                MessageBox.Show("aaa");
+                MessageBox.Show("Kiểm tra lại thông tin");
             }
+            
         }
         private void HoaDon_Load(object sender, EventArgs e)
         {
-            List<HoaDonBEL> lstCus = cusBAL3.ReadHoaDon();
-            foreach (HoaDonBEL cus in lstCus)
+            try
             {
-                dgvhd.Rows.Add(cus.Mahd, cus.Makh, cus.Manv, cus.ngaymua, cus.tongtien);
+                List<HoaDonBEL> lstCus = cusBAL3.ReadHoaDon();
+                foreach (HoaDonBEL cus in lstCus)
+                {
+                    dgvhd.Rows.Add(cus.Mahd, cus.Makh, cus.Manv, cus.ngaymua, cus.tongtien);
+                }
             }
+            catch
+            {
+                MessageBox.Show("Kiểm tra lại thông tin");
+            }
+           
 
         }
 
         private void dgvslectchange(object sender, EventArgs e)
         {
-
-            if (dgvhd.SelectedCells.Count > 0)
+            try
             {
-                string a = dgvhd.SelectedCells[0].Value.ToString();
-                string a1 = dgvhd.SelectedCells[1].Value.ToString();
-                string a2 = dgvhd.SelectedCells[2].Value.ToString();
-                string a3 = dgvhd.SelectedCells[3].Value.ToString();
-                string a4 = dgvhd.SelectedCells[4].Value.ToString();
-               
-                if (int.TryParse(a, out int id)
-                && int.TryParse(a1, out int makh)
-                && int.TryParse(a2, out int manv))
+                if (dgvhd.SelectedCells.Count > 0)
                 {
-                    tbhd.Text = id.ToString(); // Gán số nguyên đã chuyển đổi cho tbhd
-                    cbbmakh.Text = makh.ToString();
-                    cbbmanv.Text = manv.ToString();
-                    tbnm.Text = a3.ToString();
-                    tbtongtien.Text = a4.ToString();
+                    string a = dgvhd.SelectedCells[0].Value.ToString();
+                    string a1 = dgvhd.SelectedCells[1].Value.ToString();
+                    string a2 = dgvhd.SelectedCells[2].Value.ToString();
+                    string a3 = dgvhd.SelectedCells[3].Value.ToString();
+                    string a4 = dgvhd.SelectedCells[4].Value.ToString();
 
+                    if (int.TryParse(a, out int id)
+                    && int.TryParse(a1, out int makh)
+                    && int.TryParse(a2, out int manv))
+                    {
+                        tbhd.Text = id.ToString(); // Gán số nguyên đã chuyển đổi cho tbhd
+                        cbbmakh.Text = makh.ToString();
+                        cbbmanv.Text = manv.ToString();
+                        tbnm.Text = a3.ToString();
+                        tbtongtien.Text = a4.ToString();
+
+                    }
+
+
+                    else
+                    {
+                        tbhd.Text = null;
+                        cbbmakh.Text = null;
+                        cbbmanv.Text = null;
+                        tbnm.Text = null;
+                        tbtongtien.Text = null;
+                    }
                 }
 
 
-                else
-                {
-                    tbhd.Text = null;
-                    cbbmakh.Text = null;
-                    cbbmanv.Text = null;
-                    tbnm.Text = null;
-                    tbtongtien.Text = null;
-                }
+
             }
-        
+            catch
+            {
+                MessageBox.Show("Kiểm tra lại thông tin");
+            }
 
-
+           
         }
 
         private void tbhd_TextChanged(object sender, EventArgs e)
         {
-            dgvsp.Rows.Clear();
-            CthdBEL cus = new CthdBEL();
-            cus.mahd = int.Parse(tbhd.Text);
-            List<CthdBEL> lstCus = cusBAL4.timkiem(cus);
-            foreach (CthdBEL c in lstCus)
+            try
             {
-                dgvsp.Rows.Add(c.id, c.mahd, c.masp, c.tensp, c.sl, c.dg, c.tt);
+                dgvsp.Rows.Clear();
+                CthdBEL cus = new CthdBEL();
+                cus.mahd = int.Parse(tbhd.Text);
+                List<CthdBEL> lstCus = cusBAL4.timkiem(cus);
+                foreach (CthdBEL c in lstCus)
+                {
+                    dgvsp.Rows.Add(c.id, c.mahd, c.masp, c.tensp, c.sl, c.dg, c.tt);
+                }
             }
+            catch
+            {
+                MessageBox.Show("Kiểm tra lại thông tin");
+            }
+           
 
 
         }
-        int tam;
+      
         private void dgvsp_SelectionChanged(object sender, EventArgs e)
         {
-            if (dgvsp.SelectedCells.Count > 0)
+            try
+            {
+                if (dgvsp.SelectedCells.Count > 0)
+                {
+
+                    tbid.Text = dgvsp.SelectedCells[0].Value.ToString();
+                    cbbmasp.Text = dgvsp.SelectedCells[2].Value.ToString();
+                    tbtsp.Text = dgvsp.SelectedCells[3].Value.ToString();
+                    tbsl.Text = dgvsp.SelectedCells[4].Value.ToString();
+                    tbgsp.Text = dgvsp.SelectedCells[5].Value.ToString();
+                    tbtt.Text = dgvsp.SelectedCells[6].Value.ToString();
+
+
+                }
+            }
+            catch
             {
 
-                tbid.Text  = dgvsp.SelectedCells[0].Value.ToString();
-                cbbmasp.Text = dgvsp.SelectedCells[2].Value.ToString();
-                tbtsp.Text= dgvsp.SelectedCells[3].Value.ToString();
-                 tbsl.Text = dgvsp.SelectedCells[4].Value.ToString();
-                tbgsp.Text = dgvsp.SelectedCells[5].Value.ToString();
-                tbtt.Text= dgvsp.SelectedCells[6].Value.ToString();
-                tam = int.Parse(dgvsp.SelectedCells[6].Value.ToString());
-
             }
+           
         }
 
         private void clear_Click(object sender, EventArgs e)
         {
-            dgvsp.Rows.Clear();
-            tbtongtien.Clear();
-            intValue2 = 0;
-            tt = 0;
+            try
+            {
+                dgvsp.Rows.Clear();
+                tbtongtien.Clear();
+                intValue2 = 0;
+                tt = 0;
+            }
+            catch
+            {
+
+            }
+           
         }
         int intValue;
         private void tbtt_TextChanged(object sender, EventArgs e)
         {
-            if (int.TryParse(tbtt.Text, out int value))
+            try
             {
-                // Successfully parsed the text as a decimal value
-                tbtt.Text = value.ToString("N0"); // Format the value as desired
-                tbtt.Select(tbtt.Text.Length, 0);
+                if (int.TryParse(tbtt.Text, out int value))
+                {
+                    // Successfully parsed the text as a decimal value
+                    tbtt.Text = value.ToString("N0"); // Format the value as desired
+                    tbtt.Select(tbtt.Text.Length, 0);
 
-                // Convert the decimal value to an integer (possible loss of precision)
-                intValue = (int)value;
+                    // Convert the decimal value to an integer (possible loss of precision)
+                    intValue = (int)value;
+
+                }
+            }
+            catch
+            {
 
             }
+            
         }
         int intValue2;
 
         private void button6_Click(object sender, EventArgs e)
         {
-            if (dgvsp.CurrentCell != null && dgvsp.CurrentCell.RowIndex != -1)
+            try
             {
-                int idx = dgvsp.CurrentCell.RowIndex;
-
-                DataGridViewRow selectedRow = dgvsp.Rows[idx];
-                if (!selectedRow.Cells.Cast<DataGridViewCell>().Any(cell => !string.IsNullOrEmpty(cell.Value?.ToString())))
+                if (dgvsp.CurrentCell != null && dgvsp.CurrentCell.RowIndex != -1)
                 {
-                    MessageBox.Show("Không thể xóa", "Thông báo");
-                    return;
-                }
+                    int idx = dgvsp.CurrentCell.RowIndex;
 
-                dgvsp.Rows.RemoveAt(idx);
+                    DataGridViewRow selectedRow = dgvsp.Rows[idx];
+                    if (!selectedRow.Cells.Cast<DataGridViewCell>().Any(cell => !string.IsNullOrEmpty(cell.Value?.ToString())))
+                    {
+                        MessageBox.Show("Không thể xóa", "Thông báo");
+                        return;
+                    }
+
+                    dgvsp.Rows.RemoveAt(idx);
+
+                }
+            }
+            catch
+            {
 
             }
+           
         }
 
         private void Edithd_Click(object sender, EventArgs e)
         {
-            if (IsDataGridViewEmpty(dgvsp))
+            try
             {
-                MessageBox.Show("Vui lòng nhập dữ liệu trong hóa đơn");
-            }
-            else
-            {
-                if (cbbmakh.Text != "" && cbbmanv.Text != "")
+                if (tbhd.Text != "")
                 {
-
-                    HoaDonBEL cus = new HoaDonBEL();
-                    cus.Makh = int.Parse(cbbmakh.Text);
-                    cus.Manv = int.Parse(cbbmanv.Text);
-                    cus.ngaymua = DateTime.Now;
-                    cus.tongtien = intValue2;
-                    int a = cusBAL3.AddHoaDon(cus);
-
-                    foreach (DataGridViewRow row in dgvsp.Rows)
+                    if (IsDataGridViewEmpty(dgvsp))
                     {
-
-                        string columnName1 = a.ToString();
-                        string columnName2 = row.Cells[2].Value.ToString();
-                        string columnName3 = row.Cells[4].Value.ToString();
-                        string columnName4 = row.Cells[5].Value.ToString();
-                        //MessageBox.Show(columnName1);
-                        //MessageBox.Show(columnName2);
-                        //MessageBox.Show(columnName3);
-                        //MessageBox.Show(columnName4);
-                        //Mở kết nối đến cơ sở dữ liệu
-                        connection.Open();
-                        // Tạo câu lệnh SQL INSERT
-                        string insertQuery = "INSERT INTO ChiTietHoaDon VALUES (@MaHoaDon, @MaSanPham,@SoLuongMua,@DonGia)";
-                        // Tạo đối tượng Command
-                        SqlCommand cmd = new SqlCommand(insertQuery, connection);
-                        cmd.Parameters.AddWithValue("@MaHoaDon", int.Parse(columnName1));
-                        cmd.Parameters.AddWithValue("@MaSanPham", int.Parse(columnName2));
-                        cmd.Parameters.AddWithValue("@SoLuongMua", int.Parse(columnName3));
-                        cmd.Parameters.AddWithValue("@DonGia", int.Parse(columnName4));
-                        // Thực thi câu lệnh INSERT
-                        cmd.ExecuteNonQuery();
-                        // Đóng kết nối
-                        connection.Close();
-                        SanPhamBEL tk = new SanPhamBEL();
-                        tk.Ma = int.Parse(columnName2);
-                        tk.Soluong = int.Parse(columnName3);
-                        cusBAL2.capnhatsl(tk);
+                        MessageBox.Show("Vui lòng nhập dữ liệu trong hóa đơn");
                     }
-                    dgvhd.Rows.Clear();
-                    dgvsp.Rows.Clear();
-                    //dgvSanpham.Rows.Add( cus.Ten, cus.Soluong, cus.Gia, cus.Ncc, cus.Anh);
-                    List<HoaDonBEL> lstCus = cusBAL3.ReadHoaDon();
-                    foreach (HoaDonBEL c in lstCus)
+                    else
                     {
-                        dgvhd.Rows.Add(c.Mahd, c.Makh, c.Manv, c.ngaymua, c.tongtien);
-                    }
+                        if (cbbmakh.Text != "" && cbbmanv.Text != "")
+                        {
+                            int mony1 = 0; // Khởi tạo giá trị ban đầu cho biến mony1
 
+                            foreach (DataGridViewRow row in dgvsp.Rows)
+                            {
+                                if (row.Cells[6].Value != null)
+                                {
+                                    int mony = 0;
+                                    if (int.TryParse(row.Cells[6].Value.ToString(), out mony))
+                                    {
+                                        mony1 += mony;
+                                    }
+                                }
+                            }
+
+                            HoaDonBEL cus = new HoaDonBEL();
+                            cus.Mahd = int.Parse(tbhd.Text);
+                            cus.Makh = int.Parse(cbbmakh.Text);
+                            cus.Manv = int.Parse(cbbmanv.Text);
+                            cus.ngaymua = DateTime.Now;
+                            cus.tongtien = mony1;
+                            cusBAL3.EditHoaDon(cus);
+
+                            foreach (DataGridViewRow row in dgvsp.Rows)
+                            {
+
+                                string columnName1 = row.Cells[0].Value.ToString();
+                                string columnName2 = row.Cells[2].Value.ToString();
+                                string columnName3 = row.Cells[4].Value.ToString();
+                                string columnName4 = row.Cells[5].Value.ToString();
+
+                                connection.Open();
+                                // Tạo câu lệnh SQL INSERT
+                                string insertQuery = "update ChiTietHoaDon set MaSanPham=@MaSanPham ,SoLuongMua=@SoLuongMua,DonGia=@DonGia where id=@id";
+                                // Tạo đối tượng Command
+                                SqlCommand cmd = new SqlCommand(insertQuery, connection);
+                                cmd.Parameters.AddWithValue("@id", int.Parse(columnName1));
+                                cmd.Parameters.AddWithValue("@MaSanPham", int.Parse(columnName2));
+                                cmd.Parameters.AddWithValue("@SoLuongMua", int.Parse(columnName3));
+                                cmd.Parameters.AddWithValue("@DonGia", int.Parse(columnName4));
+                                // Thực thi câu lệnh INSERT
+                                cmd.ExecuteNonQuery();
+                                // Đóng kết nối
+                                connection.Close();
+                                //SanPhamBEL tk = new SanPhamBEL();
+                                //tk.Ma = int.Parse(columnName2);
+                                //tk.Soluong = int.Parse(columnName3);
+                                //cusBAL2.capnhatsl(tk);
+                            }
+                            dgvhd.Rows.Clear();
+                            dgvsp.Rows.Clear();
+                            //dgvSanpham.Rows.Add( cus.Ten, cus.Soluong, cus.Gia, cus.Ncc, cus.Anh);
+                            List<HoaDonBEL> lstCus = cusBAL3.ReadHoaDon();
+                            foreach (HoaDonBEL c in lstCus)
+                            {
+                                dgvhd.Rows.Add(c.Mahd, c.Makh, c.Manv, c.ngaymua, c.tongtien);
+                            }
+                            MessageBox.Show("Sửa hóa đơn thành công");
+
+                        }
+                        else
+                        {
+                            MessageBox.Show("Vui lòng nhập đủ thông tin");
+                        }
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("Vui lòng nhập đủ thông tin");
+                    MessageBox.Show("Chọn hóa đơn cần sửa");
                 }
+         
             }
+            catch
+            {
+                MessageBox.Show("Ko thể thêm or xóa sản phẩm ở trong hóa đơn");
+            }
+        }
+
+        private void tbid_TextChanged(object sender, EventArgs e)
+        {
+
         }
 
         private void tbtongtien_TextChanged(object sender, EventArgs e)
         {
-            if (decimal.TryParse(tbtongtien.Text, out decimal value))
-            {
-                // Successfully parsed the text as a decimal value
-                tbtongtien.Text = value.ToString("N0"); // Format the value as desired
-                tbtongtien.Select(tbtongtien.Text.Length, 0);
+            try {
+                if (decimal.TryParse(tbtongtien.Text, out decimal value))
+                {
 
-                // Convert the decimal value to an integer (possible loss of precision)
-                intValue2 = (int)value;
+                    tbtongtien.Text = value.ToString("N0");
+                    tbtongtien.Select(tbtongtien.Text.Length, 0);
+
+
+
+                }
+            }
+            catch
+            {
 
             }
+          
         }
 
-   
+        private void button3_Click(object sender, EventArgs e)
+        {
+            PrintDocument pd = new PrintDocument();
+            pd.PrintPage += new PrintPageEventHandler(PrintPage);
+
+            PrintPreviewDialog printPreview = new PrintPreviewDialog();
+            printPreview.Document = pd;
+            printPreview.ShowDialog();
+            MessageBox.Show("In hóa đơn thành công");
+        }
+        private void PrintPage(object sender, PrintPageEventArgs e)
+        {
+            Graphics g = e.Graphics;
+            Font titleFont = new Font("Arial", 18, FontStyle.Bold);
+            Font headerFont = new Font("Arial", 12, FontStyle.Bold);
+            Font contentFont = new Font("Arial", 12);
+            Brush blackBrush = Brushes.Black;
+
+            // Header
+            g.DrawString("HÓA ĐƠN", titleFont, blackBrush, new PointF(250, 50));
+
+            g.DrawString("Mã hóa đơn:", headerFont, blackBrush, new PointF(100, 120));
+            g.DrawString(tbhd.Text, contentFont, blackBrush, new PointF(250, 120));
+
+            g.DrawString("Mã khách hàng:", headerFont, blackBrush, new PointF(100, 150));
+            g.DrawString(cbbmakh.Text, contentFont, blackBrush, new PointF(250, 150));
+
+            g.DrawString("Mã nhân viên:", headerFont, blackBrush, new PointF(100, 180));
+            g.DrawString(cbbmanv.Text, contentFont, blackBrush, new PointF(250, 180));
+
+            // Table Header
+            int tableHeaderY = 220;
+            g.DrawString("Mã SP", headerFont, blackBrush, new PointF(100, tableHeaderY));
+            g.DrawString("Tên sản phẩm", headerFont, blackBrush, new PointF(200, tableHeaderY));
+            g.DrawString("Số lượng", headerFont, blackBrush, new PointF(350, tableHeaderY));
+            g.DrawString("Đơn giá", headerFont, blackBrush, new PointF(450, tableHeaderY));
+            g.DrawString("Thành tiền", headerFont, blackBrush, new PointF(550, tableHeaderY));
+
+            // Table Content
+            int contentY = 250;
+            foreach (DataGridViewRow row in dgvsp.Rows)
+            {
+                string masp = row.Cells[2].Value.ToString();
+                string tenSanPham = row.Cells[3].Value.ToString();
+                string soLuong = row.Cells[4].Value.ToString();
+                string donGia = row.Cells[5].Value.ToString();
+                string thanhTien = row.Cells[6].Value.ToString();
+
+                g.DrawString(masp, contentFont, blackBrush, new PointF(100, contentY));
+                g.DrawString(tenSanPham, contentFont, blackBrush, new PointF(200, contentY));
+                g.DrawString(soLuong, contentFont, blackBrush, new PointF(350, contentY));
+                g.DrawString(donGia, contentFont, blackBrush, new PointF(450, contentY));
+                g.DrawString(thanhTien, contentFont, blackBrush, new PointF(550, contentY));
+
+                contentY += 30; // Row spacing
+            }
+
+            // Total
+            g.DrawString("Tổng tiền:", headerFont, blackBrush, new PointF(350, contentY + 20));
+            g.DrawString(tbtongtien.Text, contentFont, blackBrush, new PointF(550, contentY + 20));
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            var form2 = new Menu();
+            form2.Closed += (s, args) => this.Close();
+            form2.Show();
+        }
     }
-  
+
 
 }
 

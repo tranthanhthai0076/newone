@@ -61,11 +61,19 @@ namespace QLBHST.GUII
 
         private void Gdht_Load(object sender, EventArgs e)
         {
-            List<SanPhamBEL> lstCus = cusBAL1.ReadSanPham();
-            foreach (SanPhamBEL cus in lstCus)
+            try
             {
-                dgvSanpham.Rows.Add(cus.Ma, cus.Ten, cus.Soluong, cus.Gia, cus.Ncc, cus.Anh);
+                List<SanPhamBEL> lstCus = cusBAL1.ReadSanPham();
+                foreach (SanPhamBEL cus in lstCus)
+                {
+                    dgvSanpham.Rows.Add(cus.Ma, cus.Ten, cus.Soluong, cus.Gia, cus.Ncc, cus.Anh);
+                }
             }
+            catch
+            {
+                MessageBox.Show("Có lỗi xảy ra");
+            }
+           
 
         }
 
@@ -336,15 +344,21 @@ namespace QLBHST.GUII
 
         private void timkiem(object sender, EventArgs e)
         {
-
-            dgvSanpham.Rows.Clear();
-            SanPhamBEL cus = new SanPhamBEL();
-            cus.Ten = sreach.Text;
-            List<SanPhamBEL> lstCus = cusBAL1.Timkiem(cus);
-            foreach (SanPhamBEL c in lstCus)
-            {
-                dgvSanpham.Rows.Add(c.Ma, c.Ten, c.Soluong, c.Gia, c.Ncc, c.Anh);
+            try {
+                dgvSanpham.Rows.Clear();
+                SanPhamBEL cus = new SanPhamBEL();
+                cus.Ten = sreach.Text;
+                List<SanPhamBEL> lstCus = cusBAL1.Timkiem(cus);
+                foreach (SanPhamBEL c in lstCus)
+                {
+                    dgvSanpham.Rows.Add(c.Ma, c.Ten, c.Soluong, c.Gia, c.Ncc, c.Anh);
+                }
             }
+            catch
+            {
+                MessageBox.Show("Tìm kiếm thất bại");
+            }
+           
 
         }
 
@@ -502,6 +516,5 @@ namespace QLBHST.GUII
             form2.Show();
         }
 
-     
     }
 }
