@@ -11,5 +11,11 @@ namespace QLBHST.MODELL
         public int Ma { get; set; }
         public string Ten { get; set; }
         public int sl { get; set; }
+        public int giaban { get; set; }
+
+        public int doanhthu { get; set; }
+        public int tongtien { get; set; }
+        public DateTime ngaybd { get; set; }
+        public DateTime ngaykt { get; set; }
     }
 }

@@ -11,9 +11,9 @@ namespace QLBHST.BALL
     public class spdabanBAL
     {
         spdabanDAL dal = new spdabanDAL();
-        public List<spdabanBEL> ReadNhaCungCap()
+        public List<spdabanBEL> ReadNhaCungCap(spdabanBEL c)
         {
-            List<spdabanBEL> lstCus = dal.ReadNhaCungCap();
+            List<spdabanBEL> lstCus = dal.ReadNhaCungCap(c);
             return lstCus;
         }
 

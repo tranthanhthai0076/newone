@@ -10,11 +10,13 @@ namespace QLBHST.DALL
 {
     internal class spdabanDAL : DBConnection
     {
-        public List<spdabanBEL> ReadNhaCungCap()
+        public List<spdabanBEL> ReadNhaCungCap(spdabanBEL c)
         {
             SqlConnection conn = CreateConnection();
             conn.Open();
-            SqlCommand cmd = new SqlCommand("select * from spdb ", conn);
+            SqlCommand cmd = new SqlCommand("select * from spdb where NgayMua >=@ngaybd and NgayMua <= @ngaykt  ", conn);
+            cmd.Parameters.Add(new SqlParameter("@ngaybd", c.ngaybd));
+            cmd.Parameters.Add(new SqlParameter("@ngaykt", c.ngaykt));
             SqlDataReader reader = cmd.ExecuteReader();
 
             List<spdabanBEL> lstCus = new List<spdabanBEL>();
@@ -24,7 +26,9 @@ namespace QLBHST.DALL
                 spdabanBEL cus = new spdabanBEL();
                 cus.Ma = int.Parse(reader["MaSanPham"].ToString());
                 cus.Ten = reader["TenSanPham"].ToString();
-                cus.sl = int.Parse(reader["SoLuongDaBan"].ToString());
+                cus.sl = int.Parse(reader["TongSoLuongDaBan"].ToString());
+                cus.giaban = int.Parse(reader["GiaBan"].ToString());
+                cus.tongtien = int.Parse(reader["TongTienDaBan"].ToString());
                 lstCus.Add(cus);
             }
             conn.Close();

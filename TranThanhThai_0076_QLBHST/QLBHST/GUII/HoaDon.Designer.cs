@@ -585,6 +585,7 @@
             this.tbtk.Name = "tbtk";
             this.tbtk.Size = new System.Drawing.Size(200, 27);
             this.tbtk.TabIndex = 39;
+          
             // 
             // label15
             // 

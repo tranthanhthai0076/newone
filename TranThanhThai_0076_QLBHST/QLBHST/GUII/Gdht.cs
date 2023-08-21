@@ -161,7 +161,7 @@ namespace QLBHST.GUII
                 {
                     // Lấy đường dẫn của hình ảnh đã chọn
                     string imagePath = openFileDialog.FileName;
-                    string selectedImagePath = openFileDialog.FileName;
+                    string selectedImagePath = openFileDialog.FileName;  
 
                     // Lưu ảnh vào thư mục chỉ định
                     string targetDirectory = @"C:\Users\MSII\Desktop\c#\TranThanhThai_0076_QLBHST\QLBHST\img\"; // Thay đổi đường dẫn tới thư mục mong muốn

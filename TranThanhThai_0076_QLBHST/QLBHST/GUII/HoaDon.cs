@@ -772,7 +772,7 @@ namespace QLBHST.GUII
             }
             catch
             {
-
+                MessageBox.Show("Thử lại sau");
             }
           
         }
@@ -846,6 +846,8 @@ namespace QLBHST.GUII
             form2.Closed += (s, args) => this.Close();
             form2.Show();
         }
+
+      
     }
 
 
